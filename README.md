@@ -94,7 +94,7 @@ For example, <code>fixedint_negative.csv</code> contains the average percentage 
 
 ### figures 
 
-contains all the figures from the paper (generated using the script in <code>code/R/experiments<code/>).
+contains all the figures from the paper (generated using the script in <code>code/R/experiments</code>).
 
 ### writeup
 
