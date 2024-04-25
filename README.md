@@ -13,12 +13,12 @@ People often select only a few events when explaining what happened. What drives
   <li>the pre-registrations for all experiments may be accessed via the Open Science Framework <a href="https://osf.io/fpyst/">here</a>.</li> 
   <li>separate links for each experiment:</li>
    <ul>
-      <li><a href="https://osf.io/8k9sy">Condition "Hard Intervention / Negative Outcome </a></li>
-      <li><a href="https://osf.io/7qzu9">Condition "Hard Intervention / Positive Outcome </a></li>
-      <li><a href="https://osf.io/aw286">Condition "Soft Intervention / Negative Outcome </a></li>
-      <li><a href="https://osf.io/dmgcw">Condition "Soft Intervention / Positive Outcome </a></li>
-      <li><a href="https://osf.io/49bfq">Condition "Fixed Intervention / Negative Outcome </a></li>
-      <li><a href="https://osf.io/rbu7y">Condition "Fixed Intervention / Positive Outcome </a></li>
+      <li><a href="https://osf.io/8k9sy">Condition "Hard Intervention / Negative Outcome" </a></li>
+      <li><a href="https://osf.io/7qzu9">Condition "Hard Intervention / Positive Outcome" </a></li>
+      <li><a href="https://osf.io/aw286">Condition "Soft Intervention / Negative Outcome" </a></li>
+      <li><a href="https://osf.io/dmgcw">Condition "Soft Intervention / Positive Outcome" </a></li>
+      <li><a href="https://osf.io/49bfq">Condition "Fixed Intervention / Negative Outcome" </a></li>
+      <li><a href="https://osf.io/rbu7y">Condition "Fixed Intervention / Positive Outcome" </a></li>
     </ul>
 </ul> 
 
