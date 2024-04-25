@@ -69,6 +69,7 @@ For example, <code>fixedint_negative.csv</code> contains the average percentage 
 
 ### code
 This folder contains two types of R scripts. 
+The model predictions can be seen <a href="https://cicl-stanford.github.io/explanation_intervention/analyses/experiments/index.html">here</a>. The analyses and plots can be seen <a href="https://cicl-stanford.github.io/explanation_intervention/analyses/models/index.html">here</a>
 
 <ul>
   <li><code>R/optimal_intervention_model</code>
