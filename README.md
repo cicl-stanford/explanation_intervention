@@ -86,9 +86,6 @@ This folder contains two types of R scripts.
           <li><code>[...]study_X-responses.csv</code> contains the response data (i.e., intervention and explanation selection).</li>
           <li><code>[...]study_X-participants.csv</code> contains demographic information and post-experiment feedback/comments from participants.</li>
           <li><code>Experiment.rmd</code> reads in the response data from each experimental condition (e.g., fixed intervention / negative), calculates average responses and outputs these in a new data file (e.g., <code>fixedint_negative.csv</code>).
-            <ul>
-              <li>Further analyses the model predictions (from <code>R/optimal_intervention_model</code>)and plots can be seen here.</li>
-            </ul>
           </li>
         </ul>
       </li>
