@@ -69,8 +69,6 @@ For example, <code>fixedint_negative.csv</code> contains the average percentage 
 
 ### code
 
-Contains R code of two sorts.
-
 <ul>
   <li><code>R/experiments</code> contains all raw data from all experimental conditions.
     <ul>
@@ -78,7 +76,7 @@ Contains R code of two sorts.
       <li><code>[...]study_X-participants.csv</code> contains demographic information and post-experiment feedback/comments from participants.</li>
       <li><code>Experiment.rmd</code> reads in the response data from each experimental condition (e.g., fixed intervention / negative), calculates average responses and outputs these in a new data file (e.g., <code>fixedint_negative.csv</code>).
         <ul>
-          <li>The analyses for analyzing data and generating figures can be seen here.</li>
+          <li>All further analyses on the data and and plots can be seen here.</li>
         </ul>
       </li>
     </ul>
