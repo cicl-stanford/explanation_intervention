@@ -34,7 +34,8 @@ People often select only a few events when explaining what happened. What drives
 │   ├── experiment2 (Soft Intervention)
 │   └── experiment3 (Fixed Intervention)
 └── figures
-    └── plots
+│   └── plots
+└── writeup
 ```
 
 ### code
@@ -93,7 +94,8 @@ For example, <code>fixedint_negative.csv</code> contains the average percentage 
 
 ### figures 
 
-contains all the figures from the paper (generated using the script in <code>code/R<code/>).
+contains all the figures from the paper (generated using the script in <code>code/R/experiments<code/>).
 
+### writeup
 
-Put all your writing here. This folder structure is likely to expand for more complex projects. For example, you could add a subfolders like folders `journal/cognition/submission/`, `proceedings/cogsci/resubmission/` etc. 
+contains a pdf of the CogSci 2024 paper.
