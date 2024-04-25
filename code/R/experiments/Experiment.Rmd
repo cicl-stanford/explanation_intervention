@@ -35,6 +35,7 @@ options(dplyr.summarise.inform = F)
 # Condition 1: Hard Intervention: Positive Outcome
 ## Read in Data
 ```{r}
+
 #### Read in Data
 df.responses = read.csv(file = "explanation_selection_positive_outcome_study_2-responses.csv", stringsAsFactors = F, sep = ",") %>% 
       select(-error)
@@ -594,7 +595,7 @@ df.exp6 <- df.data6 %>%
 
 ```
 
-##Prepare Dataset
+## Prepare Dataset
 
 ```{r}
 df.exp6_summary <- df.exp6 %>%
@@ -615,7 +616,7 @@ write_csv(df.exp6_summary, "fixedint_neg.csv")
 
 ```
 
-##Create Dataset including raw data from all conditions
+# Create Dataset including raw data from all conditions
 
 ```{r}
 df.exp_all <- rbind(df.exp1, df.exp2, df.exp3, df.exp4, df.exp5, df.exp6)
@@ -1075,3 +1076,8 @@ df.combined %>%
 ```
 
 
+# Session info
+
+```{r, echo=F}
+sessionInfo()
+```
