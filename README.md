@@ -40,7 +40,7 @@ People often select only a few events when explaining what happened. What drives
 ### code
 
 This folder contains two types of R scripts. 
-The model predictions can be seen <a href="https://cicl-stanford.github.io/explanation_intervention/analyses/experiments/index.html">here</a>. The analyses and plots can be seen <a href="https://cicl-stanford.github.io/explanation_intervention/analyses/models/index.html">here</a>
+The model predictions can be seen <a href="https://cicl-stanford.github.io/explanation_intervention/analyses/experiments/index.html">here</a>. The analyses and plots can be seen <a href="https://cicl-stanford.github.io/explanation_intervention/analyses/model/index.html">here</a>
 
 <ul>
   <li><code>R/optimal_intervention_model</code>
