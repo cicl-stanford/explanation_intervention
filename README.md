@@ -64,16 +64,19 @@ Condition "Fixed Intervention / Negative Outcome": <a href="https://cicl-stanfor
 
 ### data 
 
-contains anonymized data from all experiments. For each experiment:
+Contains anonymized combined data for all experimental conditions (hard / soft / fixed intervention x positive / negative outcome) (for raw data, see code/R/). 
 
-<code>[...]study_X-responses.csv</code> contains the response data (i.e. responsibilty judgments).
+For example, <code>[...]fixedint_negative.csv</code> contains the average percentage of choice selection (abnormal switch, normal switch, no preference) in the intervention and explanation task. 
 
-<code>[...]study_X-participants.csv</code> contains demographic information and post-experiment feedback/comments from participants.
+<code>[...]data_int.csv</code> combines all four dataframes (hardint_pos, hardint_neg, softint_pos, softint_neg, fixedint_pos, fixedint_neg)
+
+### code
+
+Contains R 
 
 ### figures 
 
 contains all the figures from the paper (generated using the script in code/R).
-
 
 
 ## General points
