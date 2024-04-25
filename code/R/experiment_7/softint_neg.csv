@@ -1,3 +1,0 @@
-CausalStructure,abnormal_explanation_percentage,normal_explanation_percentage,nopreference_explanation_percentage,abnormal_intervention_percentage,normal_intervention_percentage,nopreference_intervention_percentage,Outcome,Experiment
-Conjunctive,45.45454545454545,14.14141414141414,40.4040404040404,67.67676767676768,22.22222222222222,10.1010101010101,negative,softint
-Disjunctive,11.11111111111111,35.35353535353536,53.535353535353536,35.35353535353536,55.55555555555556,9.090909090909092,negative,softint
