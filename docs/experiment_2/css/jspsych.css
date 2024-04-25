@@ -410,27 +410,6 @@
     margin-right: auto;
 }
 
-.probability_prompt_0 {
-    width: 90%;
-    text-align: center;
-    position: center;
-    margin: auto;
-}
-
-.probability_prompt_1 {
-    width: 90%;
-    text-align: center;
-    position: center;
-    margin: auto;
-}
-
-.probability_prompt_2 {
-    width: 80%;
-    text-align: center;
-    position: center;
-    margin: auto;
-}
-
 /* fonts and type */
 .jspsych-display-element {
     font-family: "Open Sans", "Arial", sans-serif;

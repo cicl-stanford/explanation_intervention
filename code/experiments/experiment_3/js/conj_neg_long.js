@@ -182,7 +182,7 @@ const cn_round_two_long = {
 const cn_selection_task_long = {
     type: jsPsychSurveyMultiChoice,
     preamble: `<div style="text-align:center; padding:20px; max-width:900px;">` +
-        "In the next round of the game, Zarah gets to press one of the two buttons and make a switch 20% less likely to turn on. The other switch will turn <strong>ON</strong> or <strong>OFF</strong> based on its usual probability. Before Zarah decides which button to press, you can explain why your team lost a point in the first round.<br></br>" +
+        "In the next round of the game, Zarah gets to press one of the two buttons and make a switch 10% likely to turn on. The other switch will turn <strong>ON</strong> or <strong>OFF</strong> based on its usual probability. Before Zarah decides which button to press, you can explain why your team lost a point in the first round.<br></br>" +
         "<img class='cn_image' src='media/cn_long/explanation_selection.jpg'></img>",
     questions: [
         {
@@ -329,7 +329,7 @@ const cn_conditional_node_round_one_q2_long = {
 const cn_intervention_task_long = {
     type: jsPsychSurveyMultiChoice,
     preamble: `<div style="text-align:center; padding:20px; max-width:900px;">` +
-        "Now, imagine you were given the choice of pressing one of the buttons in order to maximize your chances of not losing a point. Pressing the button will decrease the probability that the connected switch will turn <strong>ON</strong> by 20%. The other switch will turn <strong>ON</strong> or <strong>OFF</strong> based on its usual probability. <br></br>" +
+        "Now, imagine you were given the choice of pressing one of the buttons in order to maximize your chances of avoiding losing a point. Pressing the button will decrease the probability that the connected switch will turn <strong>ON</strong> to 10%. The other switch will turn <strong>ON</strong> or <strong>OFF</strong> based on its usual probability. <br></br>" +
         "<img class='cp_image' src='media/cn_long/intervention_task.jpg'></img>",
     questions: [
         {

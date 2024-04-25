@@ -18,9 +18,9 @@ const trialData = {
         "instructions_long_button":
         [
             "There is a button attached to each of the switches.",
-            "Pressing a button will increase the probability for that switch to turn ON by 20%.",
-            "Pressing the button linked to the blue switch will increase its probability of turning ON to 100%.",
-            "Pressing the button linked to the orange switch will increase its probability of turning ON to 40%.",
+            "Pressing a button will increase the probability for that switch to turn ON to 90%.",
+            "Pressing the button linked to the blue switch will increase its probability of turning ON to 90%.",
+            "Pressing the button linked to the orange switch will increase its probability of turning ON to 90%.",
         ],
         "instructions_short":
         [
@@ -38,24 +38,24 @@ const trialData = {
         "round_one_long":
         [
             "As a participant of <em><strong>Flip or Flop</em></strong>, you play together in a team with Zarah.<br>You have more information about the game than Zarah.",
-            "You know that both switches need to be <strong>ON</strong> in order to score a point. <br> You know that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
-            "Zarah knows that both switches need to be <strong>ON</strong> in order to score a point. <br> Zarah also knows that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>. <br> However, Zarah does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
+            "You know that both switches need to be <strong>ON</strong> in order to score a point. <br> You know that pressing a button will make the connected switch 90% to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
+            "Zarah knows that both switches need to be <strong>ON</strong> in order to score a point. <br> Zarah also knows that pressing a button will make the connected switch 90% more likely to turn <strong>ON</strong>. <br> However, Zarah does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
         ],
         "round_one_short":
         [
-            "You know that both switches need to be <strong>ON</strong> in order to score a point. <br> You know that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
-            "Zarah knows that both switches need to be <strong>ON</strong> in order to score a point. <br> Zarah also knows that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>. <br> However, Zarah does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
+            "You know that both switches need to be <strong>ON</strong> in order to score a point. <br> You know that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
+            "Zarah knows that both switches need to be <strong>ON</strong> in order to score a point. <br> Zarah also knows that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>. <br> However, Zarah does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
         ],
         "round_one_comp_q1":
         [
             { question: "You know that both switches need to be <strong>ON</strong> in order to score a point.", options: ["True", "False"] },
-            { question: "You know that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>.", options: ["True", "False"] },
+            { question: "You know that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>.", options: ["True", "False"] },
             { question: "You know the chance of each switch turning <strong>ON</strong>.", options: ["True", "False"] },
         ],
         "round_one_comp_q2":
         [
             { question: "Zarah knows that both switches need to be <strong>ON</strong> in order to score a point.", options: ["True", "False"] },
-            { question: "Zarah knows that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>.", options: ["True", "False"] },
+            { question: "Zarah knows that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>.", options: ["True", "False"] },
             { question: "Zarah knows the chance of each switch turning <strong>ON</strong>.", options: ["True", "False"] },
         ],
         "round_two_long": 
@@ -79,8 +79,8 @@ const trialData = {
         { 
             question: ['Which button would you press?'], 
             options: [
-               "I would press the blue button so that the probability of the blue switch turning on increases to 100%.", 
-               "I would press the orange button so that the probability of the orange switch turning on increases to 40%.",
+               "I would press the <strong style='color:blue;'>blue</strong> button so that the probability of the <strong style='color:blue;'>blue</strong> switch turning <strong>ON</strong> increases to 90%.", 
+               "I would press the <strong style='color:orange;'>orange</strong> button so that the probability of the <strong style='color:orange;'>orange</strong> switch turning <strong>ON</strong> increases to 90%.",
                "It does not matter. Pressing either button would be equally good."
             ]
         },
@@ -132,24 +132,24 @@ const trialData = {
         "round_one_long":
         [
             "As a participant of <em><strong>Flip or Flop</em></strong>, you play together in a team with Alice.<br>You have more information about the game than Alice.",
-            "You know that at least one switch needs to be <strong>ON</strong> in order to score a point. <br> You know that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
-            "Alice knows that at least one switch needs to be <strong>ON</strong> in order to score a point. <br> Alice also knows that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>. <br> However, Alice does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong>."
+            "You know that at least one switch needs to be <strong>ON</strong> in order to score a point. <br> You know that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
+            "Alice knows that at least one switch needs to be <strong>ON</strong> in order to score a point. <br> Alice also knows that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>. <br> However, Alice does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
         ],
         "round_one_short":
         [
-            "You know that at least one switch needs to be <strong>ON</strong> in order to score a point. <br> You know that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
-            "Alice knows that at least one switch needs to be <strong>ON</strong> in order to score a point. <br> Alice also knows that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>. <br> However, Alice does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>.",
+            "You know that at least one switch needs to be <strong>ON</strong> in order to score a point. <br> You know that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
+            "Alice knows that at least one switch needs to be <strong>ON</strong> in order to score a point. <br> Alice also knows that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>. <br> However, Alice does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>.",
         ],
         "round_one_comp_q1":
         [
             { question: "You know that at least one of the switches needs to be <strong>ON</strong> in order to score a point.", options: ["True", "False"] },
-            { question: "You know that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>.", options: ["True", "False"] },
+            { question: "You know that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>.", options: ["True", "False"] },
             { question: "You know the chance of each switch turning <strong>ON</strong>.", options: ["True", "False"] },
         ],
         "round_one_comp_q2":
         [
             { question: "Alice knows that at least one of the switches needs to be <strong>ON</strong> in order to score a point.", options: ["True", "False"] },
-            { question: "Alice knows that pressing a button will make the connected switch 20% more likely to turn <strong>ON</strong>.", options: ["True", "False"] },
+            { question: "Alice knows that pressing a button will make the connected switch 90% likely to turn <strong>ON</strong>.", options: ["True", "False"] },
             { question: "Alice knows the chance of each switch turning <strong>ON</strong>.", options: ["True", "False"] },
         ],
         "round_two_long": 
@@ -173,10 +173,10 @@ const trialData = {
         { 
             question: ['Which button would you press?'], 
             options: [
-                "I would press the blue button in order to increase the probability of the blue switch turning on to 100%.",
-                "I would press the orange button in order to increase the probability of the orange switch turning on to 40%.",
+                "I would press the <strong style='color:blue;'>blue</strong> button so that the probability of the <strong style='color:blue;'>blue</strong> switch turning <strong>ON</strong> increases to 90%.", 
+                "I would press the <strong style='color:orange;'>orange</strong> button so that the probability of the <strong style='color:orange;'>orange</strong> switch turning <strong>ON</strong> increases to 90%.",
                 "It does not matter. Pressing either button would be equally good."
-            ]
+             ]
         },
         "dp_instructions_key": {
             "dp_instructions_comp_0": "True",
@@ -226,24 +226,24 @@ const trialData = {
         "round_one_long":
         [
             "As a participant of <em><strong>Flip or Flop</em></strong>, you play together in a team with Zarah.<br>You have more information about the game than Zarah.",
-            "You know that both switches need to be <strong>ON</strong> in order to lose a point. <br> You know that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
-            "Zarah knows that both switches need to be <strong>ON</strong> in order to lose a point. <br>Zarah also knows that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>.<br> However, Zarah does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
+            "You know that both switches need to be <strong>ON</strong> in order to lose a point. <br> You know that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>. <br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
+            "Zarah knows that both switches need to be <strong>ON</strong> in order to lose a point. <br>Zarah also knows that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>.<br> However, Zarah does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
         ],
         "round_one_short":
         [
-            "You know that both switches need to be <strong>ON</strong> in order to lose a point. <br> You know that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>.<br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
-            "Zarah knows that both switches need to be <strong>ON</strong> in order to lose a point. <br>Zarah also knows that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>. <br>However, Zarah does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
+            "You know that both switches need to be <strong>ON</strong> in order to lose a point. <br> You know that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>.<br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
+            "Zarah knows that both switches need to be <strong>ON</strong> in order to lose a point. <br>Zarah also knows that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>. <br>However, Zarah does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
         ],
         "round_one_comp_q1":
         [
             { question: "You know that both switches need to be <strong>ON</strong> in order to lose a point.", options: ["True", "False"] },
-            { question: "You know that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>.", options: ["True", "False"] },
+            { question: "You know that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>.", options: ["True", "False"] },
             { question: "You know the chance of each switch turning <strong>ON</strong>.", options: ["True", "False"] },
         ],
         "round_one_comp_q2":
         [
             { question: "Zarah knows that both switches need to be <strong>ON</strong> in order to lose a point.", options: ["True", "False"] },
-            { question: "Zarah knows that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>.", options: ["True", "False"] },
+            { question: "Zarah knows that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>.", options: ["True", "False"] },
             { question: "Zarah knows the chance of each switch turning <strong>ON</strong>.", options: ["True", "False"] },
         ],
         "round_two_long": 
@@ -257,9 +257,9 @@ const trialData = {
         "instructions_long_button":
         [
             "There is a button attached to each of the switches.",
-            "Pressing a button will decrease the probability for that switch to turn ON by 20%.",
-            "Pressing the button linked to the blue switch will decrease its probability of turning ON to 60%.",
-            "Pressing the button linked to the orange switch will decrease its probability of turning ON to 0%.",
+            "Pressing a button will decrease the probability for that switch to turn ON to 10%.",
+            "Pressing the button linked to the blue switch will decrease its probability of turning ON to 10%.",
+            "Pressing the button linked to the orange switch will decrease its probability of turning ON to 10%.",
         ],
         "selection_task":
         { 
@@ -274,10 +274,10 @@ const trialData = {
         { 
             question: ['Which button would you press?'], 
             options: [
-                "I would press the blue button so that the probability of the blue switch turning on decreases to 60%.",
-                "I would press the orange button so that the probability of the orange switch turning on decreases to 0%.",
+                "I would press the <strong style='color:blue;'>blue</strong> button so that the probability of the <strong style='color:blue;'>blue</strong> switch turning <strong>ON</strong> decreases to 10%.", 
+                "I would press the <strong style='color:orange;'>orange</strong> button so that the probability of the <strong style='color:orange;'>orange</strong> switch turning <strong>ON</strong> decreases to 10%.",
                 "It does not matter. Pressing either button would be equally good."
-            ]
+             ]
         },
         "cn_instructions_key": {
             "cn_instructions_comp_0": "True",
@@ -327,24 +327,24 @@ const trialData = {
         "round_one_long":
         [
             "As a participant of <em><strong>Flip or Flop</em></strong>, you play together in a team with Alice.<br>You have more information about the game than Alice.",
-            "You know that at least one switch needs to be <strong>ON</strong> in order to lose a point.<br> You know that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>.<br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
-            "Alice knows that at least one switch needs to be <strong>ON</strong> in order to lose a point. <br>Alice also knows that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>. <br>However, Alice does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
+            "You know that at least one switch needs to be <strong>ON</strong> in order to lose a point.<br> You know that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>.<br> Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
+            "Alice knows that at least one switch needs to be <strong>ON</strong> in order to lose a point. <br>Alice also knows that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>. <br>However, Alice does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
         ],
         "round_one_short":
         [
-            "You know that at least one switch needs to be <strong>ON</strong> in order to lose a point. <br>You know that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>. <br>Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
-            "Alice knows that at least one switch needs to be <strong>ON</strong> in order to lose a point. <br>Alice also knows that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>. <br>However, Alice does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
+            "You know that at least one switch needs to be <strong>ON</strong> in order to lose a point. <br>You know that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>. <br>Finally, you also know how likely the <strong style='color:blue;'>blue</strong> switch is to turn <strong>ON</strong> and how likely the <strong style='color:orange;'>orange</strong> switch is to turn <strong>ON</strong>.",
+            "Alice knows that at least one switch needs to be <strong>ON</strong> in order to lose a point. <br>Alice also knows that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>. <br>However, Alice does not know whether the <strong style='color:blue;'>blue</strong> switch is more likely to turn <strong>ON</strong> or whether the <strong style='color:orange;'>orange</strong> switch is more likely to turn <strong>ON</strong>."
         ],
         "round_one_comp_q1":
         [
             { question: "You know that at least one of the switches needs to be <strong>ON</strong> in order to lose a point.", options: ["True", "False"] },
-            { question: "You know that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>.", options: ["True", "False"] },
+            { question: "You know that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>.", options: ["True", "False"] },
             { question: "You know the chance of each switch turning <strong>ON</strong>.", options: ["True", "False"] },
         ],
         "round_one_comp_q2":
         [
             { question: "Alice knows that at least one of the switches needs to be <strong>ON</strong> in order to lose a point.", options: ["True", "False"] },
-            { question: "Alice knows that pressing a button will make the connected switch 20% less likely to turn <strong>ON</strong>.", options: ["True", "False"] },
+            { question: "Alice knows that pressing a button will make the connected switch 10% likely to turn <strong>ON</strong>.", options: ["True", "False"] },
             { question: "Alice knows the chance of each switch turning <strong>ON</strong>.", options: ["True", "False"] },
         ],
         "round_two_long": 
@@ -357,7 +357,7 @@ const trialData = {
         ],
         "selection_task":
         { 
-            question: ['If you had to choose, which of the two explanations would you give to Zarah?'], 
+            question: ['If you had to choose, which of the two explanations would you give to Alice?'], 
             options: [
                 "Because the <strong style='color:blue;'>blue</strong> switch turned <strong>ON</strong>.",
                 "Because the <strong style='color:orange;'>orange</strong> switch turned <strong>ON</strong>.", 
@@ -368,8 +368,8 @@ const trialData = {
         { 
             question: ['Which button would you press?'], 
             options: [
-                "I would press the blue button so that the probability of the blue switch turning on decreases to 60%.",
-                "I would press the orange button so that the probability of the orange switch turning on decreases to 0%.",
+                "I would press the <strong style='color:blue;'>blue</strong> button so that the probability of the <strong style='color:blue;'>blue</strong> switch turning <strong>ON</strong> decreases to 10%.", 
+                "I would press the <strong style='color:orange;'>orange</strong> button so that the probability of the <strong style='color:orange;'>orange</strong> switch turning <strong>ON</strong> decreases to 10%.",
                 "It does not matter. Pressing either button would be equally good."
             ]
         },

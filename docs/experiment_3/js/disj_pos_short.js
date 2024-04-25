@@ -180,7 +180,7 @@ const dp_round_two_short = {
 const dp_selection_task_short = {
     type: jsPsychSurveyMultiChoice,
     preamble: `<div style="text-align:center; padding:20px; max-width:900px;">` +
-        "In the next round of the game, Alice gets to press one of the two buttons and make a switch 20% more likely to turn on. The other switch will turn <strong>ON</strong> or <strong>OFF</strong> based on its usual probability. Before Alice decides which button to press, you can explain why your team scored a point in the first round." +
+        "In the next round of the game, Alice gets to press one of the two buttons and make a switch 90% likely to turn on. The other switch will turn <strong>ON</strong> or <strong>OFF</strong> based on its usual probability. Before Alice decides which button to press, you can explain why your team scored a point in the first round." +
         "<img class='dp_image' src='media/dp_short/explanation_selection.jpg'></img>",
     questions: [
         {
@@ -326,7 +326,7 @@ const dp_conditional_node_round_one_q2_short = {
 const dp_intervention_task_short = {
     type: jsPsychSurveyMultiChoice,
     preamble: `<div style="text-align:center; max-width:900px;">` +
-        "Now, imagine you were given the choice of pressing one of the buttons in order to maximize your chances of winning a point. Pressing the button will increase the probability that the connected switch will turn <strong>ON</strong> by 20%. The other switch will turn <strong>ON</strong> or <strong>OFF</strong> based on its usual probability.<br></br>" +
+        "Now, imagine you were given the choice of pressing one of the buttons in order to maximize your chances of winning a point. Pressing the button will increase the probability that the connected switch will turn <strong>ON</strong> to 90%. The other switch will turn <strong>ON</strong> or <strong>OFF</strong> based on its usual probability.<br></br>" +
         "<img class='dp_image' src='media/dp_short/intervention_task.jpg'></img>",
     questions: [
         {

@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Explanation Valence 2 </title>
-    <link rel="stylesheet" href='css/jquery-ui-edit.css' />
-    <link rel="stylesheet" href='css/jspsych.css' />
-    <link rel="stylesheet" href='css/jquery-ui-slider-pips-edit.css' />
+    <title> Explanation Valence </title>
+    <style>
+        span.required {
+            display: none;
+        }
+    </style>
+    <link href="https://unpkg.com/jspsych@7.2.3/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/jspsych.css">
 
+    <script src="https://unpkg.com/jspsych@7.2.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@1.0.1"></script>
     <script src='js/jquery.min.js'></script>
     <script src='js/jquery-ui.min.js'></script>
-    <script src='js/jquery-ui-slider-pips.js'></script>
     <script src="https://proliferate.alps.science/static/js/proliferate.js"> </script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.1"></script>
 
-    <script src='js/jspsych.js'></script>
-    <script src='js/jspsych-preload.js'></script>
     <script src='js/jspsych-instructions.js'></script>
     <script src='js/jspsych-survey-multi-select.js'></script>
     <script src='js/jspsych-survey-multi-choice.js'></script>
-    <script src='js/jspsych-html-slider-response.js'></script>
-
-    <script src='js/jspsych-html-button-response.js'></script>
-    <script src='js/jspsych-instructions.js'></script>
-    <script src='js/jspsych-survey-html-form.js'></script>
 
     <script src='js/consent.js'></script>
     <script src='js/demographics.js'></script>
@@ -28,10 +30,15 @@
     <script src='js/trial_data.js'></script>
     <script src='js/utils.js'></script>
 
-    <script src='js/condition_one.js'></script>
-    <script src='js/condition_two.js'></script>
-    <script src='js/condition_three.js'></script>
-    <script src='js/condition_four.js'></script>
+    <script src='js/conj_pos_long.js'></script>
+    <script src='js/conj_pos_short.js'></script>
+    <script src='js/conj_neg_long.js'></script>
+    <script src='js/conj_neg_short.js'></script>
+
+    <script src='js/disj_pos_long.js'></script>
+    <script src='js/disj_pos_short.js'></script>
+    <script src='js/disj_neg_long.js'></script>
+    <script src='js/disj_neg_short.js'></script>
 
 </head>
 
@@ -54,124 +61,72 @@
     var condition = get_url_param("condition", "condition1");
     var trialCondition = ["condition1", "condition2", "condition3", "condition4"];
     trialCondition = trialCondition[condition - 1];
+    console.log(trialCondition);
 
     // Data display
     let jsPsych = initJsPsych({
         show_progress_bar: true,
         auto_update_progress_bar: false,
         on_finish: () => {
-            jsPsych.setProgressBar(1.0);
             jsPsych.data.displayData('csv');
             let trial_data = jsPsych.data.get().filter([
-                { trial_type: 'html-slider-response' }
+                { trial_type: 'survey-multi-choice' }
             ]).trials;
-            
+           
+            let cp_intervention_response = "";
+            let dp_intervention_response = "";
+            let cn_intervention_response = "";
+            let dn_intervention_response = "";
+            let cp_explanation_response = "";
+            let dp_explanation_response = "";
+            let cn_explanation_response = "";
+            let dn_explanation_response = "";
+
+            let task_responses = [];
+            for (let i=0; i<trial_data.length; i++) {
+                // record intervention task response
+                if (trial_data[i]["response"].hasOwnProperty("cp_intervention_task")) {
+                    cp_intervention_response = trial_data[i]["response"]["cp_intervention_task"]["val_clean"];
+                    task_responses.push(cp_intervention_response);
+                } else if (trial_data[i]["response"].hasOwnProperty("dp_intervention_task")) {
+                    dp_intervention_response = trial_data[i]["response"]["dp_intervention_task"]["val_clean"];
+                    task_responses.push(dp_intervention_response);
+                } else if (trial_data[i]["response"].hasOwnProperty("cn_intervention_task")) {
+                    cn_intervention_response = trial_data[i]["response"]["cn_intervention_task"]["val_clean"];
+                    task_responses.push(cn_intervention_response);
+                } else if (trial_data[i]["response"].hasOwnProperty("dn_intervention_task")) {
+                    dn_intervention_response = trial_data[i]["response"]["dn_intervention_task"]["val_clean"];
+                    task_responses.push(dn_intervention_response);
+                    // now record explanation task response
+                } else if (trial_data[i]["response"].hasOwnProperty("cp_selection_task")) {
+                    cp_explanation_response = trial_data[i]["response"]["cp_selection_task"]["val_clean"];
+                    task_responses.push(cp_explanation_response);
+                } else if (trial_data[i]["response"].hasOwnProperty("dp_selection_task")) {
+                    dp_explanation_response = trial_data[i]["response"]["dp_selection_task"]["val_clean"];
+                    task_responses.push(dp_explanation_response);
+                } else if (trial_data[i]["response"].hasOwnProperty("cn_selection_task")) {
+                    cn_explanation_response = trial_data[i]["response"]["cn_selection_task"]["val_clean"];
+                    task_responses.push(cn_explanation_response);
+                } else if (trial_data[i]["response"].hasOwnProperty("dn_selection_task")) {
+                    dn_explanation_response = trial_data[i]["response"]["dn_selection_task"]["val_clean"];
+                    task_responses.push(dn_explanation_response);
+                }
+            };
+
             var response = {};
-            if (trialCondition === "condition1") {
-                let condition_1_responses = [];
-                for (let i=0; i<trial_data.length; i++) {
-                    condition_1_responses.push(trial_data[i]["response"])
-                };
 
-                // record explanation task response
-                condition_1_responses.forEach((element, index) => {
-                    if (index === 0) {
-                        response['cp_probability_task_one_response'] = element;
-                    } else if (index === 1) {
-                        response['cp_probability_task_two_response'] = element;
-                    } else if (index === 2) {
-                        response['dp_probability_task_one_response'] = element;
-                    } else if (index === 3) {
-                        response['dp_probability_task_two_response'] = element;
-                    } else if (index === 4) {
-                        response['cn_probability_task_one_response'] = element;
-                    } else if (index === 5) {
-                        response['cn_probability_task_two_response'] = element;
-                    } else if (index === 6) {
-                        response['dn_probability_task_one_response'] = element;
-                    } else {
-                        response['dn_probability_task_two_response'] = element;
-                    } 
-                });
-            } else if (trialCondition === "condition2") {
-                let condition_2_responses = [];
-                for (let i=0; i<trial_data.length; i++) {
-                    condition_2_responses.push(trial_data[i]["response"])
-                };
-
-                // record explanation task response
-                condition_2_responses.forEach((element, index) => {
-                    if (index === 0) {
-                        response['dp_probability_task_one_response'] = element;
-                    } else if (index === 1) {
-                        response['dp_probability_task_two_response'] = element;
-                    } else if (index === 2) {
-                        response['cp_probability_task_one_response'] = element;
-                    } else if (index === 3) {
-                        response['cp_probability_task_two_response'] = element;
-                    } else if (index === 4) {
-                        response['dn_probability_task_one_response'] = element;
-                    } else if (index === 5) {
-                        response['dn_probability_task_two_response'] = element;
-                    } else if (index === 6) {
-                        response['cn_probability_task_one_response'] = element;
-                    } else {
-                        response['cn_probability_task_two_response'] = element;
-                    } 
-                });
-            } else if (trialCondition === "condition3") {
-                let condition_3_responses = [];
-                for (let i=0; i<trial_data.length; i++) {
-                    condition_3_responses.push(trial_data[i]["response"])
-                };
-
-                // record explanation task response
-                condition_3_responses.forEach((element, index) => {
-                    if (index === 0) {
-                        response['cn_probability_task_one_response'] = element;
-                    } else if (index === 1) {
-                        response['cn_probability_task_two_response'] = element;
-                    } else if (index === 2) {
-                        response['dn_probability_task_one_response'] = element;
-                    } else if (index === 3) {
-                        response['dn_probability_task_two_response'] = element;
-                    } else if (index === 4) {
-                        response['cp_probability_task_one_response'] = element;
-                    } else if (index === 5) {
-                        response['cp_probability_task_two_response'] = element;
-                    } else if (index === 6) {
-                        response['dp_probability_task_one_response'] = element;
-                    } else {
-                        response['dp_probability_task_two_response'] = element;
-                    } 
-                });
-            } else if (trialCondition === "condition4") {
-                let condition_4_responses = [];
-                for (let i=0; i<trial_data.length; i++) {
-                    condition_4_responses.push(trial_data[i]["response"])
-                };
-
-                // record explanation task response
-                condition_4_responses.forEach((element, index) => {
-                    if (index === 0) {
-                        response['dn_probability_task_one_response'] = element;
-                    } else if (index === 1) {
-                        response['dn_probability_task_two_response'] = element;
-                    } else if (index === 2) {
-                        response['cn_probability_task_one_response'] = element;
-                    } else if (index === 3) {
-                        response['cn_probability_task_two_response'] = element;
-                    } else if (index === 4) {
-                        response['dp_probability_task_one_response'] = element;
-                    } else if (index === 5) {
-                        response['dp_probability_task_two_response'] = element;
-                    } else if (index === 6) {
-                        response['cp_probability_task_one_response'] = element;
-                    } else {
-                        response['cp_probability_task_two_response'] = element;
-                    } 
-                });
-            }
+            // record explanation task response
+            task_responses.forEach((element, index) => {
+                if (index === 0) {
+                    response['intervention_response_1'] = element;
+                } else if (index === 1) {
+                    response['explanation_response_1'] = element;
+                } else if (index === 2) {
+                    response['intervention_response_2'] = element;
+                } else {
+                    response['explanation_response_2'] = element;
+                }
+            });
 
             let feedback = jsPsych.data.get().filter({ "page_type": "exit_survey" }).values()[0]["response"].feedback
             let gender = jsPsych.data.get().filter({ "page_type": "exit_survey" }).values()[0]["response"].gender
@@ -214,13 +169,21 @@
     timeline.push(consent);
 
     if (trialCondition === "condition1") {
-        timeline.push(...condition_one);
+        // Condition1: CP --> DP
+        timeline.push(...cp_long);
+        timeline.push(...dp_short);
     } else if (trialCondition === "condition2") {
-        timeline.push(...condition_two);
+        // Condition2: DP --> CP
+        timeline.push(...dp_long);
+        timeline.push(...cp_short);
     } else if (trialCondition === "condition3") {
-        timeline.push(...condition_three);
+        // Condition3: CN --> DN
+        timeline.push(...cn_long);
+        timeline.push(...dn_short);
     } else if (trialCondition === "condition4") {
-        timeline.push(...condition_four);
+        // Condition4: DN --> CN
+        timeline.push(...dn_long);
+        timeline.push(...cn_short);
     }
 
     // demographics
@@ -229,3 +192,4 @@
     jsPsych.run(timeline);
 </script>
 </html>
+
