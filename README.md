@@ -71,7 +71,7 @@ For example, <code>fixedint_negative.csv</code> contains the average percentage 
 This folder contains two types of R scripts. 
 
 <ul>
-  <li><code>R/optimal_intervention</code>
+  <li><code>R/optimal_intervention_model</code>
     <ul>
       <li> <code>R/optimal_intervention.rmd</code> creates the model predictions for the intervention model, the truth model and a combined model.</li>
           <ul>
@@ -81,13 +81,13 @@ This folder contains two types of R scripts.
   </li>
   <li><code>R/experiments</code>
     <ul>
-      <li><code>R/experiments.rmd</code> contains all raw data from all experimental conditions.
+      <li> This folder contains all raw data from all experimental conditions.
         <ul>
           <li><code>[...]study_X-responses.csv</code> contains the response data (i.e., intervention and explanation selection).</li>
           <li><code>[...]study_X-participants.csv</code> contains demographic information and post-experiment feedback/comments from participants.</li>
           <li><code>Experiment.rmd</code> reads in the response data from each experimental condition (e.g., fixed intervention / negative), calculates average responses and outputs these in a new data file (e.g., <code>fixedint_negative.csv</code>).
             <ul>
-              <li>All further analyses with the model predictions from the data and plots can be seen here.</li>
+              <li>Further analyses the model predictions (from <code>R/optimal_intervention_model</code>)and plots can be seen here.</li>
             </ul>
           </li>
         </ul>
