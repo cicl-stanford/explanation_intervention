@@ -1,6 +1,6 @@
 ---
 title: "Optimal intervention model"
-author: "Tobias Gerstenberg & Lara Kirfel"
+author: "Jacqueline Harding, Tobias Gerstenberg & Lara Kirfel"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output:
   bookdown::html_document2:
