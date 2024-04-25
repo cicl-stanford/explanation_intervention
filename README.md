@@ -73,8 +73,10 @@ This folder contains two types of R scripts.
 <ul>
   <li><code>R/optimal_intervention</code>
     <ul>
-      <li>Creates the model predictions for the intervention model, the truth model and a combined model.</li>
-      <li><code>[...]study_X-responses.csv</code> contains the response data (i.e., intervention and explanation selection).</li>
+      <li> <code>R/optimal_intervention.rmd</code> creates the model predictions for the intervention model, the truth model and a combined model.</li>
+          <ul>
+      <li><code>explanation_predictions_truth_only.csv</code>, for example, contains the predictions for a "Truth Only" model.</li>
+           </ul>
     </ul>
   </li>
   <li><code>R/experiments</code>
