@@ -9,7 +9,7 @@
 	+ for example, to save a figure from an R script inside the `code/R/` folder the path should be "../../figures/figure_name.pdf"
 - keep your folder structure organized
 	+ we recommend adhering to the folder structure in this repository 
-	+ more complex projects may have additional folders such as `videos/`, `tables/`, ...
+	+ more complex projects may have additional folders such as `videos/`, `papers/`, ...
 - note: some of the folders are empty except for a `.keep` file
 	+ the `.keep` file is just there to make sure that github includes the otherwise empty folder 
 	+ feel free to delete the `.keep` file once you've added another file to that folder
@@ -60,34 +60,3 @@ Put your project presentation here (e.g. your keynote, powerpoint, google slides
 ### writeup 
 
 Put all your writing here. This folder structure is likely to expand for more complex projects. For example, you could add a subfolders like folders `journal/cognition/submission/`, `proceedings/cogsci/resubmission/` etc. 
-
-## CRediT author statement 
-
-Each public repository should have a [credit author statement](https://www.elsevier.com/authors/policies-and-guidelines/credit-author-statement) 
-
-| Term                       | Definition                                                                                                                                                                                                    |
-|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Conceptualization          | Ideas; formulation or evolution of overarching research goals and aims                                                                                                                                        |
-| Methodology                | Development or design of methodology; creation of models                                                                                                                                                      |
-| Software                   | Programming, software development; designing computer programs; implementation of the computer code and supporting algorithms; testing of existing code components                                            |
-| Validation                 | Verification, whether as a part of the activity or separate, of the overall replication/ reproducibility of results/experiments and other research outputs                                                    |
-| Formal analysis            | Application of statistical, mathematical, computational, or other formal techniques to analyze or synthesize study data                                                                                       |
-| Investigation              | Conducting a research and investigation process, specifically performing the experiments, or data/evidence collection                                                                                         |
-| Resources                  | Provision of study materials, reagents, materials, patients, laboratory samples, animals, instrumentation, computing resources, or other analysis tools                                                       |
-| Data Curation              | Management activities to annotate (produce metadata), scrub data and maintain research data (including software code, where it is necessary for interpreting the data itself) for initial use and later reuse |
-| Writing - Original Draft   | Preparation, creation and/or presentation of the published work, specifically writing the initial draft (including substantive translation)                                                                   |
-| Writing - Review & Editing | Preparation, creation and/or presentation of the published work by those from the original research group, specifically critical review, commentary or revision – including pre-or postpublication stages     |
-| Visualization              | Preparation, creation and/or presentation of the published work, specifically visualization/ data presentation                                                                                                |
-| Supervision                | Oversight and leadership responsibility for the research activity planning and execution, including mentorship external to the core team                                                                      |
-| Project administration     | Management and coordination responsibility for the research activity planning and execution                                                                                                                   |
-| Funding acquisition        | Acquisition of the financial support for the project leading to this publication                                                                                                                              |
-
-**Sample CRediT author statement**
-- Zhang San: Conceptualization, Methodology, Software 
-- Priya Singh: Data curation, Writing- Original draft preparation
-- Wang Wu: Visualization, Investigation 
-- Jan Jansen: Supervision 
-- Ajay Kumar: Software, Validation
-- Sun Qi: Writing-Reviewing and Editing
-
-

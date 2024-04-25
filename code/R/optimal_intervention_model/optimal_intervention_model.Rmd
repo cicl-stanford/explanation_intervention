@@ -1,0 +1,633 @@
+---
+title: "Optimal intervention model"
+author: "Tobias Gerstenberg & Lara Kirfel"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    theme: cosmo
+    highlight: tango
+---
+
+# Load packages 
+
+```{r, message=F}
+library("knitr")
+library("janitor")
+library("patchwork")
+library("Metrics")
+library("tidyverse")
+```
+
+# Set options 
+
+```{r}
+theme_set(theme_classic() + 
+    theme(text = element_text(size = 24)))
+
+opts_chunk$set(comment = "",
+               fig.show = "hold")
+
+# suppress grouping warning 
+options(dplyr.summarise.inform = F)
+```
+
+# Functions
+
+```{r}
+fun.softmax = function(x, temp = 3) {
+    out = exp(x*temp) / sum(exp(x*temp))
+    return(out)
+}
+```
+
+# DATA 
+
+```{r, warning=FALSE, message=FALSE}
+df.data = bind_rows(
+  read_csv(file = "../../../data/hardint_pos.csv"),
+  read_csv(file = "../../../data/hardint_neg.csv"),
+  read_csv(file = "../../../data/softint_pos.csv"),
+  read_csv(file = "../../../data/softint_neg.csv"),
+  read_csv(file = "../../../data/fixedint_pos.csv"),
+  read_csv(file = "../../../data/fixedint_neg.csv")) %>% 
+  clean_names() %>% 
+  mutate(causal_structure = str_to_lower(causal_structure),
+         experiment = str_remove(experiment, "int")) %>% 
+  rename_with(.fn = ~str_remove_all(., "_percentage")) %>% 
+  pivot_longer(cols = -c(causal_structure, outcome, experiment),
+               values_to = "probability") %>% 
+  separate(col = name,
+           into = c("choice", "type")) %>% 
+  mutate(across(.cols = -probability,
+                .fns = ~ as.factor(.)),
+         choice = factor(choice, levels = c("abnormal", "nopreference", "normal"))) %>%
+  mutate(probability = probability / 100)
+
+df.intervention = df.data %>% 
+  filter(type == "intervention") %>% 
+  rename(intervention = experiment)
+
+df.explanation = df.data %>% 
+  filter(type == "explanation")
+
+colnames(df.data)
+
+# write_csv(df.data, "data.csv")
+
+```
+
+
+#Create Bootstrapped Confidence Intervals
+
+```{r}
+
+
+```
+
+
+# MODEL 
+
+## Interventions 
+
+### Model structure
+
+```{r}
+
+fun.success = function(p_abnormal, p_normal, causal_structure, outcome){ 
+  if (causal_structure == "conjunctive"){
+    p = p_abnormal *  p_normal
+  } else{
+    p = 1 - (1 - p_abnormal) * (1 - p_normal)
+  }
+  if (outcome == "negative"){
+    p = 1 - p
+  }
+  return(p)
+}
+
+causal_structure = c("conjunctive", "disjunctive")
+outcome = c("positive", "negative") 
+
+df.model = expand_grid(causal_structure, outcome) %>% 
+  mutate(p_abnormal = 0.2,
+         p_normal = 0.8,
+         int_hard_abnormal = ifelse(outcome == "positive", 1, 0),
+         int_hard_normal = ifelse(outcome == "positive", 1, 0),
+         int_soft_abnormal = ifelse(outcome == "positive",
+                                  p_abnormal + 0.2,
+                                  p_abnormal - 0.2),
+         int_soft_normal = ifelse(outcome == "positive",
+                                  p_normal + 0.2,
+                                  p_normal - 0.2),
+         int_fixed_abnormal = ifelse(outcome == "positive",
+                                  0.9,
+                                  0.1),
+         int_fixed_normal = ifelse(outcome == "positive",
+                                  0.9,
+                                  0.1),
+         p_success = pmap_dbl(.l = list(p_abnormal, 
+                                        p_normal, 
+                                        causal_structure, 
+                                        outcome),
+                              .f = ~ fun.success(..1, ..2, ..3, ..4)),
+         p_success_int_hard_abnormal = pmap_dbl(.l = list(int_hard_abnormal, 
+                                        p_normal, 
+                                        causal_structure, 
+                                        outcome),
+                              .f = ~ fun.success(..1, ..2, ..3, ..4)),
+         p_success_int_hard_normal = pmap_dbl(.l = list(p_abnormal, 
+                                        int_hard_normal, 
+                                        causal_structure, 
+                                        outcome),
+                              .f = ~ fun.success(..1, ..2, ..3, ..4)),
+         p_success_int_soft_abnormal = pmap_dbl(.l = list(int_soft_abnormal, 
+                                        p_normal, 
+                                        causal_structure, 
+                                        outcome),
+                              .f = ~ fun.success(..1, ..2, ..3, ..4)),
+         p_success_int_soft_normal = pmap_dbl(.l = list(p_abnormal, 
+                                        int_soft_normal, 
+                                        causal_structure, 
+                                        outcome),
+                              .f = ~ fun.success(..1, ..2, ..3, ..4)),
+         p_success_int_fixed_abnormal = pmap_dbl(.l = list(int_fixed_abnormal, 
+                                        p_normal, 
+                                        causal_structure, 
+                                        outcome),
+                              .f = ~ fun.success(..1, ..2, ..3, ..4)),
+         p_success_int_fixed_normal = pmap_dbl(.l = list(p_abnormal, 
+                                        int_fixed_normal, 
+                                        causal_structure, 
+                                        outcome),
+                              .f = ~ fun.success(..1, ..2, ..3, ..4)))
+```
+
+### Choice probabilities 
+
+```{r}
+# gives expected value for each intervention
+df.choice = df.model %>% 
+  select(causal_structure, outcome,
+         contains("p_success_int")) %>% 
+  pivot_longer(-c(causal_structure, outcome)) %>% 
+  mutate(name = str_remove(name, "p_success_int_")) %>% 
+  separate(name, into = c("intervention", "target")) %>% 
+  pivot_wider(names_from = target,
+              values_from = value) %>% 
+  arrange(intervention, causal_structure) %>% 
+  relocate(intervention) %>% 
+  mutate(nopreference = 0.5 * abnormal + 0.5 * normal) %>% 
+  pivot_longer(c(abnormal, normal, nopreference),
+               names_to = "choice") %>% 
+  mutate(choice = factor(choice, levels = c("abnormal", "nopreference", "normal")),
+         across(.cols = c(intervention, causal_structure, outcome),
+                .fns = ~ as.factor(.)))
+```
+
+### Fit softmax parameter
+
+```{r}
+fun.fit_temperature = function(df_data, df_prediction, temperature){
+  df_prediction %>% 
+    group_by(intervention, causal_structure, outcome) %>% 
+    mutate(prediction = fun.softmax(value, temp = temperature)) %>% 
+    ungroup() %>% 
+    left_join(df_data,
+              by = c("intervention", "causal_structure", "outcome", "choice")) %>% 
+    summarize(loss = sum((prediction - probability) ^ 2)) %>% 
+    pull(loss)
+}
+
+fit.temperature = optim(par = 10, 
+                        fn = fun.fit_temperature,
+                        method = "L-BFGS-B",
+                        lower = 0, 
+                        upper = 100,
+                        df_data = df.intervention,
+                        df_prediction = df.choice)
+
+print(fit.temperature$par)
+```
+### Predictions
+
+```{r}
+df.prediction_intervention = df.choice %>% 
+  group_by(intervention, causal_structure, outcome) %>%
+  mutate(prediction = fun.softmax(value, temp = fit.temperature$par)) %>%
+    left_join(df.data %>% 
+                filter(type == "intervention") %>% 
+                select(-type) %>% 
+                rename(intervention = experiment),
+              by = c("causal_structure", "outcome", "intervention", "choice"))
+```
+
+## Explanations 
+
+### Model structure 
+
+```{r}
+df.prediction_explanation =  df.choice %>% 
+  group_by(intervention, causal_structure, outcome) %>%
+  mutate(truth = ifelse(choice == "nopreference", 1, 0)) %>%
+    left_join(df.data %>% 
+                filter(type == "explanation") %>% 
+                select(-type) %>% 
+                rename(intervention = experiment),
+              by = c("causal_structure", "outcome", "intervention", "choice")) %>% 
+  ungroup()
+```
+
+### Model fitting functions 
+
+#### Combined model
+
+```{r}
+fun.fit_params = function(params, df_prediction){
+  
+  weight <- params[1]
+  temperature <- params[2]
+  
+  df_prediction %>% 
+    group_by(intervention, causal_structure, outcome) %>% 
+    mutate(prediction = fun.softmax(weight * value + (1 - weight) * truth, temp = temperature)) %>% 
+    ungroup() %>% 
+    summarize(loss = sum((prediction - probability) ^ 2)) %>% 
+    pull(loss)
+}
+```
+
+#### Intervention only model 
+
+```{r}
+fun.fit_params_intervention_only = function(params, df_prediction){
+  
+  temperature <- params[1]
+  
+  df_prediction %>% 
+    group_by(intervention, causal_structure, outcome) %>% 
+    mutate(prediction = fun.softmax(value, temp = temperature)) %>% 
+    ungroup() %>% 
+    summarize(loss = sum((prediction - probability) ^ 2)) %>% 
+    pull(loss)
+}
+```
+
+#### Truth only model 
+
+```{r}
+fun.fit_params_truth_only = function(params, df_prediction){
+  
+  temperature <- params[1]
+  
+  df_prediction %>% 
+    group_by(intervention, causal_structure, outcome) %>% 
+    mutate(prediction = fun.softmax(truth, temp = temperature)) %>% 
+    ungroup() %>% 
+    summarize(loss = sum((prediction - probability) ^ 2)) %>% 
+    pull(loss)
+}
+```
+
+### Fit paramters 
+
+#### Combined model
+
+```{r}
+
+initial_params <- c(weight = 0.5, temperature = 10)
+lower_bounds <- c(weight = 0, temperature = 0)
+upper_bounds <- c(weight = 1, temperature = 100)
+
+fit.params <- optim(par = initial_params, 
+                         fn = fun.fit_params,
+                         method = "L-BFGS-B",
+                         lower = lower_bounds, 
+                         upper = upper_bounds,
+                         df_prediction = df.prediction_explanation)
+
+print(fit.params$par)
+```
+
+#### Intervention only model
+
+```{r}
+
+initial_params <- c(temperature = 10)
+lower_bounds <- c(temperature = 0)
+upper_bounds <- c(temperature = 100)
+
+fit.params_intervention_only <- optim(par = initial_params, 
+                         fn = fun.fit_params_intervention_only,
+                         method = "L-BFGS-B",
+                         lower = lower_bounds, 
+                         upper = upper_bounds,
+                         df_prediction = df.prediction_explanation)
+
+print(fit.params_intervention_only$par)
+```
+
+#### Truth only model
+
+```{r}
+
+initial_params <- c(temperature = 10)
+lower_bounds <- c(temperature = 0)
+upper_bounds <- c(temperature = 100)
+
+fit.params_truth_only <- optim(par = initial_params, 
+                         fn = fun.fit_params_truth_only,
+                         method = "L-BFGS-B",
+                         lower = lower_bounds, 
+                         upper = upper_bounds,
+                         df_prediction = df.prediction_explanation)
+
+print(fit.params_truth_only$par)
+```
+
+### Predictions
+
+#### Combined model 
+
+```{r}
+df.prediction_explanation = df.prediction_explanation %>%
+  group_by(intervention, causal_structure, outcome) %>%
+  mutate(prediction = fun.softmax(fit.params$par[1] * value + (1 - fit.params$par[1]) * truth, temp = fit.params$par[2])) %>%
+  ungroup()
+
+write.csv(df.prediction_explanation, file = "explanation_predictions.csv", row.names = FALSE)
+write.csv(df.prediction_intervention, file = "intervention_predictions.csv", row.names = FALSE)
+```
+
+#### Intervention only model 
+
+```{r}
+df.prediction_explanation_intervention_only = df.prediction_explanation %>%
+  group_by(intervention, causal_structure, outcome) %>%
+  mutate(prediction = fun.softmax(value, temp = fit.params_intervention_only$par[1])) %>%
+  ungroup()
+
+write.csv(df.prediction_explanation_intervention_only, file = "explanation_predictions_intervention_only.csv", row.names = FALSE)
+```
+
+#### Truth only model 
+
+```{r}
+df.prediction_explanation_truth_only = df.prediction_explanation %>%
+  group_by(intervention, causal_structure, outcome) %>%
+  mutate(prediction = fun.softmax(truth, temp = fit.params_truth_only$par[1])) %>%
+  ungroup()
+
+write.csv(df.prediction_explanation_truth_only, file = "explanation_predictions_truth_only.csv", row.names = FALSE)
+```
+
+
+# STATS 
+
+```{r}
+df.tmp = df.prediction_intervention %>% 
+  ungroup() %>% 
+  mutate(index = "intervention") %>% 
+  bind_rows(df.prediction_explanation %>% 
+              mutate(index = "explanation") %>% 
+              select(- truth))
+
+df.tmp %>% 
+  group_by(index) %>%
+  summarize(r = cor(probability, prediction))
+```
+
+
+# PLOTS  
+
+## Judgments
+
+```{r, fig.width=20, fig.height=6}
+df.plot = df.data %>% 
+  mutate(choice = factor(choice,
+                         labels = c("abnormal", "no\npreference", "normal")))
+
+p1 = ggplot(data = df.plot %>% 
+              filter(type == "intervention"),
+       mapping = aes(x = choice,
+                     y = probability,
+                     group = experiment,
+                     fill = experiment)) + 
+  geom_col(color = "black",
+           position = position_dodge()) + 
+  facet_grid(causal_structure ~ outcome) +
+  scale_fill_brewer(palette = "Set1") + 
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.25),
+                     labels = scales::label_percent()) + 
+  labs(title = "Interventions") + 
+  theme(legend.position = "bottom")
+
+p2 = ggplot(data = df.plot %>% 
+              filter(type == "explanation"),
+       mapping = aes(x = choice,
+                     y = probability,
+                     group = experiment,
+                     fill = experiment)) + 
+  geom_col(color = "black",
+           position = position_dodge()) + 
+  facet_grid(causal_structure ~ outcome) +
+  scale_fill_brewer(palette = "Set1") + 
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.25),
+                     labels = scales::label_percent()) + 
+  labs(title = "Explanations") + 
+  theme(legend.position = "none",
+        axis.title.y = element_blank())
+
+p1 + p2 +
+  plot_annotation(tag_levels = "A")
+```
+
+## Models 
+
+### Intervention 
+
+```{r, fig.width=10, fig.height=6}
+
+df.plot = df.data %>% 
+  rename(intervention = experiment) %>% 
+  mutate(choice = factor(choice,
+                         labels = c("abnormal", "no\npreference", "normal"))) %>% 
+  mutate(outcome = factor(outcome,
+                         levels = c("positive", "negative")))  %>% 
+  mutate(intervention= factor(intervention ,
+                         levels= c("hard", "soft", "fixed"))) 
+  
+
+df.model = df.prediction_intervention %>% 
+  mutate(choice = factor(choice,
+                         labels = c("abnormal", "no\npreference", "normal"))) %>% 
+  mutate(outcome = factor(outcome,
+                         levels = c("positive", "negative")))  %>% 
+  mutate(intervention= factor(intervention ,
+                         levels= c("hard", "soft", "fixed"))) 
+  
+  
+p_int = ggplot(data = df.plot %>% 
+              filter(type == "intervention"),
+       mapping = aes(x = intervention,
+                     y = probability,
+                     group = choice,
+                     fill = choice)) + 
+  geom_col(color = "black", alpha = 0.7,
+           position = position_dodge(width = 0.9)) + 
+  geom_point(data = df.model,
+             mapping = aes(y = prediction),
+             position = position_dodge(width = 0.9),
+             shape = 21,
+             size = 4) + 
+  facet_grid(causal_structure ~ outcome) +
+scale_fill_manual(values = c("abnormal" = "#004d00",    # Dark green
+                               "no\npreference" = "#009900",  # Medium green
+                               "normal" = "#90EE90")) +    # Light green
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.25),
+                     labels = scales::label_percent()) + 
+  labs(title = "Interventions") + 
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5)) 
+
+p_int
+
+```
+
+### Explanation 
+
+```{r, fig.width=10, fig.height=6}
+
+
+df.model2 = df.prediction_explanation %>% 
+  mutate(choice = factor(choice,
+                         labels = c("abnormal", "no\npreference", "normal"))) %>% 
+  mutate(outcome = factor(outcome,
+                         levels = c("positive", "negative")))  %>% 
+  mutate(intervention= factor(intervention ,
+                         levels= c("hard", "soft", "fixed"))) 
+  
+
+p_exp = ggplot(data = df.plot %>% 
+            filter(type == "explanation"),
+       mapping = aes(x = intervention,
+                     y = probability,
+                     group = choice,
+                     fill = choice)) + 
+  geom_col(color = "black", alpha = 0.7,
+           position = position_dodge(width = 0.9)) + 
+  geom_point(data = df.model2,
+             mapping = aes(y = prediction),
+             position = position_dodge(width = 0.9),
+             shape = 21,
+             size = 4) + 
+  facet_grid(causal_structure ~ outcome) +
+  scale_fill_manual(values = c("abnormal" = "#4169E1",    # Less Intense Dark Blue (Royal Blue)
+                               "no\npreference" = "#6495ED",  # Medium Light Blue (Cornflower Blue)
+                               "normal" = "#B0E0E6")) +    # Very Light Blue (Powder Blue)
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.25),
+                     labels = scales::label_percent()) + 
+  labs(title = "Explanations") + 
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5)) 
+
+p_exp
+```
+
+## Prepare Dataset for Correlations and Scatterplot
+
+```{r}
+df.prediction_explanation<-df.prediction_explanation %>%
+  mutate(type = "explanation")
+
+df.prediction_intervention<-df.prediction_intervention %>%
+  mutate(type = "intervention")
+
+df.prediction_all <-bind_rows(select(df.prediction_explanation, 
+                                     intersect(names(df.prediction_explanation), 
+                                               names(df.prediction_intervention))),
+                         select(df.prediction_intervention, 
+                                intersect(names(df.prediction_explanation), 
+                                          names(df.prediction_intervention))))
+
+rmse_full <- rmse(df.prediction_all$prediction, df.prediction_all$probability)
+r_full <- cor(df.prediction_all$prediction, df.prediction_all$probability)
+
+
+rmse_intervention <- rmse(df.prediction_all$prediction[df.prediction_all$type == "intervention"], df.prediction_all$probability[df.prediction_all$type == "intervention"])
+
+r_intervention <- cor(df.prediction_all$prediction[df.prediction_all$type == "intervention"], df.prediction_all$probability[df.prediction_all$type == "intervention"])
+
+rmse_explanation <- rmse(df.prediction_all$prediction[df.prediction_all$type == "explanation"], df.prediction_all$probability[df.prediction_all$type == "explanation"])
+
+r_explanation <- cor(df.prediction_all$prediction[df.prediction_all$type == "explanation"], df.prediction_all$probability[df.prediction_all$type == "explanation"])
+
+values_matrix <- matrix(c(rmse_full, rmse_intervention, rmse_explanation, 
+                          r_full, r_intervention, r_explanation), 
+                        nrow = 2, ncol = 3, byrow = TRUE)
+
+# Convert the matrix to a dataframe
+values_df <- as.data.frame(values_matrix)
+
+# Naming the rows and columns
+rownames(values_df) <- c("RMSE", "r")
+colnames(values_df) <- c("Full", "Intervention", "Explanation")
+
+# Display the dataframe
+print(values_df)
+```
+
+##Scatterplot
+
+```{r}
+# Create the scatterplot with linear regression line
+
+p_all <- ggplot(df.prediction_all, 
+        aes(x = prediction, y = probability, color = type)) +
+    geom_smooth(method = "lm",
+                aes(group = 1),
+                fill = "black",
+                 color = "darkgrey", 
+                alpha = 0.1,
+                show.legend = F,
+                se = T) +  
+   geom_point(aes(fill = type, color=type),
+               size = 2.5,
+               shape = 21,
+               alpha = 0.65) +
+  labs(
+         x = "Model Prediction",
+         y = "Probability") +
+    annotate("text", 
+             x = 0, 
+             y = 0.92,
+             size = 7,
+             hjust = 0,
+             label = sprintf("RMSE = %.2f\nr = %.2f", rmse_full, r_full),
+             color = "black")+
+    scale_x_continuous(breaks = seq(0, 1, 0.25),
+                       limits = c(0, 1)) + 
+    scale_y_continuous(breaks = seq(0, 1, 0.25),
+                       limits = c(0, 1)) + 
+    scale_fill_manual(values = c("mediumblue", "darkgreen")) +
+    scale_color_manual(values = c("mediumblue", "darkgreen")) +
+    guides(color = guide_legend(title = NULL),
+           fill = guide_legend(title = NULL))+
+    theme(legend.position = c(0.8, 0.2))
+
+p_all
+```
+
+
+
+# Session info
+
+```{r, echo=F}
+sessionInfo()
+```

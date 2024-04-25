@@ -1,0 +1,1077 @@
+---
+title: "Explanation and Intervention Data"
+author: "Tobias Gerstenberg & Lara Kirfel"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+bibliography: grateful-refs.bib
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    theme: cosmo
+    highlight: tango
+---
+
+```{r, message=FALSE}
+library("knitr")
+library("modelr")        # for bootstrapping
+library("patchwork")        # making figure panels
+library("tidyverse") # for data wrangling, visualization, etc. 
+```
+
+# Set options 
+
+```{r}
+theme_set(theme_classic() + 
+    theme(text = element_text(size = 24)))
+
+opts_chunk$set(comment = "",
+               fig.show = "hold")
+
+# suppress grouping warning 
+options(dplyr.summarise.inform = F)
+```
+
+# Condition 1: Hard Intervention: Positive Outcome
+## Read in Data
+```{r}
+#### Read in Data
+df.responses = read.csv(file = "explanation_selection_positive_outcome_study_2-responses.csv", stringsAsFactors = F, sep = ",") %>% 
+      select(-error)
+
+
+df.participants <- read.csv(file = "explanation_selection_positive_outcome_study_2-participants.csv", stringsAsFactors = F, sep = ",") %>% 
+    select(-c(proliferate.condition, error))
+
+
+df.data1 <- merge(df.responses, df.participants, by="workerid")
+```
+
+## Wrangle Data
+
+```{r}
+df.exp1 <- df.data1 %>% 
+    gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  mutate(CausalStructure  =
+           case_when(
+       str_detect(proliferate.condition, "Conpos_") & str_detect(index, "response_1") ~ "Conjunctive",
+       str_detect(proliferate.condition, "Conpos_") & str_detect(index, "response_2") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Dispos_") & str_detect(index, "response_1") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Dispos_") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+  mutate(Order =
+           case_when(
+       str_detect(proliferate.condition, "Conpos_") ~ "conjunctive first",
+       str_detect(proliferate.condition, "Dispos_") ~ "disjunctive first"))%>% 
+  mutate(ResponseType =
+           case_when(
+       str_detect(index, "explanation") ~ "explanation",
+       str_detect(index, "intervention")  ~ "intervention"))%>% 
+  select(-index) %>% 
+  spread(ResponseType, response) %>% 
+  mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
+  mutate(explanation = recode (explanation, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(intervention = recode (intervention, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(abnormal_explanation =
+           case_when(
+        explanation == "abnormal" ~ "abnormal",
+        explanation != "abnormal"~ "other")) %>% 
+  mutate(normal_explanation =
+           case_when(
+        explanation == "normal" ~ "normal",
+        explanation != "normal"~ "other")) %>% 
+  mutate(nopreference_explanation =
+           case_when(
+        explanation == "no preference" ~ "no preference",
+        explanation != "no preference"~ "other")) %>% 
+  mutate(abnormal_intervention =
+           case_when(
+        intervention== "abnormal" ~ "abnormal",
+        intervention!= "abnormal"~ "other")) %>% 
+  mutate(normal_intervention  =
+           case_when(
+        intervention  == "normal" ~ "normal",
+        intervention  != "normal"~ "other")) %>% 
+  mutate(nopreference_intervention  =
+           case_when(
+        intervention== "no preference" ~ "no preference",
+        intervention!= "no preference"~ "other")) %>% 
+   mutate(intervention = "hard") %>% 
+   mutate(outcome = "positive") 
+  
+
+
+  
+```
+
+## Prepate Dataset
+
+```{r}
+df.exp1_summary <- df.exp1 %>%
+  group_by(CausalStructure) %>%
+  summarise(
+    abnormal_explanation_percentage = mean(abnormal_explanation == "abnormal") * 100,
+    normal_explanation_percentage = mean(normal_explanation == "normal") * 100,
+    nopreference_explanation_percentage = mean(nopreference_explanation == "no preference") * 100,
+    
+    abnormal_intervention_percentage = mean(abnormal_intervention == "abnormal") * 100,
+    normal_intervention_percentage = mean(normal_intervention == "normal") * 100,
+    nopreference_intervention_percentage = mean(nopreference_intervention == "no preference") * 100
+  ) %>% 
+    mutate(Outcome = "positive") %>% 
+    mutate(Experiment = "hardint")
+
+write_csv(df.exp1_summary, "hardint_pos.csv")
+
+```
+
+# Condition 2: Hard Intervention: Negative Outcome
+
+## Read in Data
+
+```{r}
+
+#### Read in Data
+df.responses = read.csv(file = "explanation_selection_negative_outcome-responses.csv", stringsAsFactors = F, sep = ",") %>% 
+      select(-error)
+
+
+df.participants <- read.csv(file = "explanation_selection_negative_outcome-participants.csv", stringsAsFactors = F, sep = ",") %>% 
+    select(-c(proliferate.condition, error))
+
+
+df.data2 <- merge(df.responses, df.participants, by="workerid")
+```
+
+## Wrangle Data
+
+```{r}
+df.exp2 <- df.data2 %>% 
+    gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  mutate(CausalStructure  =
+           case_when(
+       str_detect(proliferate.condition, "Conneg_") & str_detect(index, "response_1") ~ "Conjunctive",
+       str_detect(proliferate.condition, "Conneg_") & str_detect(index, "response_2") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Disneg_") & str_detect(index, "response_1") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Disneg_") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+  mutate(Order =
+           case_when(
+       str_detect(proliferate.condition, "Conneg_") ~ "conjunctive first",
+       str_detect(proliferate.condition, "Disneg_") ~ "disjunctive first"))%>% 
+  mutate(ResponseType =
+           case_when(
+       str_detect(index, "explanation") ~ "explanation",
+       str_detect(index, "intervention")  ~ "intervention"))%>% 
+  select(-index) %>% 
+  spread(ResponseType, response) %>% 
+  mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
+  mutate(explanation = recode (explanation, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(intervention = recode (intervention, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(abnormal_explanation =
+           case_when(
+        explanation == "abnormal" ~ "abnormal",
+        explanation != "abnormal"~ "other")) %>% 
+  mutate(normal_explanation =
+           case_when(
+        explanation == "normal" ~ "normal",
+        explanation != "normal"~ "other")) %>% 
+  mutate(nopreference_explanation =
+           case_when(
+        explanation == "no preference" ~ "no preference",
+        explanation != "no preference"~ "other")) %>% 
+  mutate(abnormal_intervention =
+           case_when(
+        intervention== "abnormal" ~ "abnormal",
+        intervention!= "abnormal"~ "other")) %>% 
+  mutate(normal_intervention  =
+           case_when(
+        intervention  == "normal" ~ "normal",
+        intervention  != "normal"~ "other")) %>% 
+  mutate(nopreference_intervention  =
+           case_when(
+        intervention== "no preference" ~ "no preference",
+        intervention!= "no preference"~ "other")) %>% 
+     mutate(intervention = "hard") %>% 
+   mutate(outcome = "negative") 
+  
+```
+
+## Prepare Dataset
+
+```{r}
+df.exp2_summary <- df.exp2 %>%
+  group_by(CausalStructure) %>%
+  summarise(
+    abnormal_explanation_percentage = mean(abnormal_explanation == "abnormal") * 100,
+    normal_explanation_percentage = mean(normal_explanation == "normal") * 100,
+    nopreference_explanation_percentage = mean(nopreference_explanation == "no preference") * 100,
+    
+    abnormal_intervention_percentage = mean(abnormal_intervention == "abnormal") * 100,
+    normal_intervention_percentage = mean(normal_intervention == "normal") * 100,
+    nopreference_intervention_percentage = mean(nopreference_intervention == "no preference") * 100
+  ) %>% 
+    mutate(Outcome = "negative") %>% 
+    mutate(Experiment = "hardint")
+
+write_csv(df.exp2_summary, "hardint_neg.csv")
+
+```
+
+# Condition 3: Soft Intervention: Positive Outcome
+
+## Read in Data
+
+```{r}
+###Experiment 4
+#### Read in Data
+
+df.responses = read.csv(file = "pressbutton_positivecondition-responses.csv", stringsAsFactors = F, sep = ",") %>% 
+      select(-error)
+
+
+df.participants <- read.csv(file = "pressbutton_positivecondition-participants.csv", stringsAsFactors = F, sep = ",") %>% 
+    select(-c(proliferate.condition, error))
+
+
+df.data3 <- merge(df.responses, df.participants, by="workerid")
+```
+
+## Wrangle Data
+
+```{r}
+df.exp3 <- df.data3 %>% 
+    gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  mutate(CausalStructure  =
+           case_when(
+       str_detect(proliferate.condition, "Condition_1") & str_detect(index, "response_1") ~ "Conjunctive",
+       str_detect(proliferate.condition, "Condition_1") & str_detect(index, "response_2") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Condition_2") & str_detect(index, "response_1") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Condition_2") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+  mutate(Order =
+           case_when(
+       str_detect(proliferate.condition, "Condition_1") ~ "conjunctive first",
+       str_detect(proliferate.condition, "Condition_2") ~ "disjunctive first"))%>% 
+  mutate(ResponseType =
+           case_when(
+       str_detect(index, "explanation") ~ "explanation",
+       str_detect(index, "intervention")  ~ "intervention"))%>% 
+  select(-index) %>% 
+  spread(ResponseType, response) %>% 
+  mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
+  mutate(explanation = recode (explanation, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(intervention = recode (intervention, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(abnormal_explanation =
+           case_when(
+        explanation == "abnormal" ~ "abnormal",
+        explanation != "abnormal"~ "other")) %>% 
+  mutate(normal_explanation =
+           case_when(
+        explanation == "normal" ~ "normal",
+        explanation != "normal"~ "other")) %>% 
+  mutate(nopreference_explanation =
+           case_when(
+        explanation == "no preference" ~ "no preference",
+        explanation != "no preference"~ "other")) %>% 
+  mutate(abnormal_intervention =
+           case_when(
+        intervention== "abnormal" ~ "abnormal",
+        intervention!= "abnormal"~ "other")) %>% 
+  mutate(normal_intervention  =
+           case_when(
+        intervention  == "normal" ~ "normal",
+        intervention  != "normal"~ "other")) %>% 
+  mutate(nopreference_intervention  =
+           case_when(
+        intervention== "no preference" ~ "no preference",
+        intervention!= "no preference"~ "other"))%>% 
+     mutate(intervention = "soft") %>% 
+   mutate(outcome = "positive")  
+  
+
+```
+
+## Prepare Dataset
+
+```{r}
+df.exp3_summary <- df.exp3 %>%
+  group_by(CausalStructure) %>%
+  summarise(
+    abnormal_explanation_percentage = mean(abnormal_explanation == "abnormal") * 100,
+    normal_explanation_percentage = mean(normal_explanation == "normal") * 100,
+    nopreference_explanation_percentage = mean(nopreference_explanation == "no preference") * 100,
+    
+    abnormal_intervention_percentage = mean(abnormal_intervention == "abnormal") * 100,
+    normal_intervention_percentage = mean(normal_intervention == "normal") * 100,
+    nopreference_intervention_percentage = mean(nopreference_intervention == "no preference") * 100
+  ) %>% 
+    mutate(Outcome = "positive") %>% 
+    mutate(Experiment = "softint")
+
+write_csv(df.exp3_summary, "softint_pos.csv")
+
+```
+
+# Condition 4: Soft Intervention: Negative Outcome
+## Read in Data
+
+```{r}
+###Experiment 4
+#### Read in Data
+
+df.responses = read.csv(file = "pressbutton_negativecondition-responses.csv", stringsAsFactors = F, sep = ",") %>% 
+      select(-error)
+
+
+df.participants <- read.csv(file = "pressbutton_negativecondition-participants.csv", stringsAsFactors = F, sep = ",") %>% 
+    select(-c(proliferate.condition, error))
+
+
+df.data4 <- merge(df.responses, df.participants, by="workerid") %>% 
+  filter(!row_number() %in% c(71, 72))
+```
+
+## Wrangle Data
+
+```{r}
+df.exp4 <- df.data4 %>% 
+    gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  mutate(CausalStructure  =
+           case_when(
+       str_detect(proliferate.condition, "Condition_3") & str_detect(index, "response_1") ~ "Conjunctive",
+       str_detect(proliferate.condition, "Condition_3") & str_detect(index, "response_2") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Condition_4") & str_detect(index, "response_1") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Condition_4") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+  mutate(Order =
+           case_when(
+       str_detect(proliferate.condition, "Condition_3") ~ "conjunctive first",
+       str_detect(proliferate.condition, "Condition_4") ~ "disjunctive first"))%>% 
+  mutate(ResponseType =
+           case_when(
+       str_detect(index, "explanation") ~ "explanation",
+       str_detect(index, "intervention")  ~ "intervention"))%>% 
+  select(-index) %>% 
+  spread(ResponseType, response) %>% 
+  mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
+  mutate(explanation = recode (explanation, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(intervention = recode (intervention, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(abnormal_explanation =
+           case_when(
+        explanation == "abnormal" ~ "abnormal",
+        explanation != "abnormal"~ "other")) %>% 
+  mutate(normal_explanation =
+           case_when(
+        explanation == "normal" ~ "normal",
+        explanation != "normal"~ "other")) %>% 
+  mutate(nopreference_explanation =
+           case_when(
+        explanation == "no preference" ~ "no preference",
+        explanation != "no preference"~ "other")) %>% 
+  mutate(abnormal_intervention =
+           case_when(
+        intervention== "abnormal" ~ "abnormal",
+        intervention!= "abnormal"~ "other")) %>% 
+  mutate(normal_intervention  =
+           case_when(
+        intervention  == "normal" ~ "normal",
+        intervention  != "normal"~ "other")) %>% 
+  mutate(nopreference_intervention  =
+           case_when(
+        intervention== "no preference" ~ "no preference",
+        intervention!= "no preference"~ "other")) %>% 
+     mutate(intervention = "soft") %>% 
+   mutate(outcome = "negative") 
+  
+
+```
+
+## Prepare Dataset
+
+```{r}
+df.exp4_summary <- df.exp4 %>%
+  group_by(CausalStructure) %>%
+  summarise(
+    abnormal_explanation_percentage = mean(abnormal_explanation == "abnormal") * 100,
+    normal_explanation_percentage = mean(normal_explanation == "normal") * 100,
+    nopreference_explanation_percentage = mean(nopreference_explanation == "no preference") * 100,
+    
+    abnormal_intervention_percentage = mean(abnormal_intervention == "abnormal") * 100,
+    normal_intervention_percentage = mean(normal_intervention == "normal") * 100,
+    nopreference_intervention_percentage = mean(nopreference_intervention == "no preference") * 100
+  ) %>% 
+    mutate(Outcome = "negative") %>% 
+    mutate(Experiment = "softint")
+
+write_csv(df.exp4_summary, "softint_neg.csv")
+
+```
+
+# Condition 5: Fixed Intervention: Positive Outcome
+## Read in Data
+
+```{r}
+###Experiment 5
+#### Read in Data
+
+df.responses = read.csv(file = "fixedintervention_positive-responses.csv", stringsAsFactors = F, sep = ",") %>% 
+      select(-error)
+
+
+df.participants <- read.csv(file = "fixedintervention_positive-participants.csv", stringsAsFactors = F, sep = ",") %>% 
+    select(-c(proliferate.condition, error))
+
+
+df.data5 <- merge(df.responses, df.participants, by="workerid") 
+```
+
+## Wrangle Data
+
+```{r}
+df.exp5 <- df.data5 %>% 
+   gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  mutate(CausalStructure  =
+           case_when(
+       str_detect(proliferate.condition, "Condition1") & str_detect(index, "response_1") ~ "Conjunctive",
+       str_detect(proliferate.condition, "Condition1") & str_detect(index, "response_2") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Condition2") & str_detect(index, "response_1") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Condition2") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+  mutate(Order =
+           case_when(
+       str_detect(proliferate.condition, "Condition1") ~ "conjunctive first",
+       str_detect(proliferate.condition, "Condition2") ~ "disjunctive first"))%>% 
+  mutate(ResponseType =
+           case_when(
+       str_detect(index, "explanation") ~ "explanation",
+       str_detect(index, "intervention")  ~ "intervention"))%>% 
+  select(-index) %>% 
+  spread(ResponseType, response) %>% 
+  mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
+  mutate(explanation = recode (explanation, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(intervention = recode (intervention, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(abnormal_explanation =
+           case_when(
+        explanation == "abnormal" ~ "abnormal",
+        explanation != "abnormal"~ "other")) %>% 
+  mutate(normal_explanation =
+           case_when(
+        explanation == "normal" ~ "normal",
+        explanation != "normal"~ "other")) %>% 
+  mutate(nopreference_explanation =
+           case_when(
+        explanation == "no preference" ~ "no preference",
+        explanation != "no preference"~ "other")) %>% 
+  mutate(abnormal_intervention =
+           case_when(
+        intervention== "abnormal" ~ "abnormal",
+        intervention!= "abnormal"~ "other")) %>% 
+  mutate(normal_intervention  =
+           case_when(
+        intervention  == "normal" ~ "normal",
+        intervention  != "normal"~ "other")) %>% 
+  mutate(nopreference_intervention  =
+           case_when(
+        intervention== "no preference" ~ "no preference",
+        intervention!= "no preference"~ "other")) %>% 
+     mutate(intervention = "fixed") %>% 
+   mutate(outcome = "positive") 
+  
+```
+
+## Prepare Dataset
+
+```{r}
+df.exp5_summary <- df.exp5 %>%
+  group_by(CausalStructure) %>%
+  summarise(
+    abnormal_explanation_percentage = mean(abnormal_explanation == "abnormal") * 100,
+    normal_explanation_percentage = mean(normal_explanation == "normal") * 100,
+    nopreference_explanation_percentage = mean(nopreference_explanation == "no preference") * 100,
+    
+    abnormal_intervention_percentage = mean(abnormal_intervention == "abnormal") * 100,
+    normal_intervention_percentage = mean(normal_intervention == "normal") * 100,
+    nopreference_intervention_percentage = mean(nopreference_intervention == "no preference") * 100
+  ) %>% 
+    mutate(Outcome = "negative") %>% 
+    mutate(Experiment = "fixedint")
+
+write_csv(df.exp5_summary, "fixedint_pos.csv")
+
+```
+
+# Condition 6: Fixed Intervention: Negative Outcome
+
+
+## Read in Data
+
+```{r}
+###Experiment 6
+#### Read in Data
+
+df.responses = read.csv(file = "fixedintervention_negative-responses.csv", stringsAsFactors = F, sep = ",") %>% 
+      select(-error)
+
+
+df.participants <- read.csv(file = "fixedintervention_negative-participants.csv", stringsAsFactors = F, sep = ",") %>% 
+    select(-c(proliferate.condition, error))
+
+
+df.data6 <- merge(df.responses, df.participants, by="workerid") 
+```
+
+## Wrangle Data
+
+```{r}
+df.exp6 <- df.data6 %>% 
+   gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  mutate(CausalStructure  =
+           case_when(
+       str_detect(proliferate.condition, "Condition_3") & str_detect(index, "response_1") ~ "Conjunctive",
+       str_detect(proliferate.condition, "Condition_3") & str_detect(index, "response_2") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Condition_4") & str_detect(index, "response_1") ~ "Disjunctive",
+       str_detect(proliferate.condition, "Condition_4") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+  mutate(Order =
+           case_when(
+       str_detect(proliferate.condition, "Condition_3") ~ "conjunctive first",
+       str_detect(proliferate.condition, "Condition_4") ~ "disjunctive first"))%>% 
+  mutate(ResponseType =
+           case_when(
+       str_detect(index, "explanation") ~ "explanation",
+       str_detect(index, "intervention")  ~ "intervention"))%>% 
+  select(-index) %>% 
+  spread(ResponseType, response) %>% 
+  mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
+  mutate(explanation = recode (explanation, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(intervention = recode (intervention, 
+                               "orange" = "abnormal",
+                               "blue" = "normal" )) %>% 
+  mutate(abnormal_explanation =
+           case_when(
+        explanation == "abnormal" ~ "abnormal",
+        explanation != "abnormal"~ "other")) %>% 
+  mutate(normal_explanation =
+           case_when(
+        explanation == "normal" ~ "normal",
+        explanation != "normal"~ "other")) %>% 
+  mutate(nopreference_explanation =
+           case_when(
+        explanation == "no preference" ~ "no preference",
+        explanation != "no preference"~ "other")) %>% 
+  mutate(abnormal_intervention =
+           case_when(
+        intervention== "abnormal" ~ "abnormal",
+        intervention!= "abnormal"~ "other")) %>% 
+  mutate(normal_intervention  =
+           case_when(
+        intervention  == "normal" ~ "normal",
+        intervention  != "normal"~ "other")) %>% 
+  mutate(nopreference_intervention  =
+           case_when(
+        intervention== "no preference" ~ "no preference",
+        intervention!= "no preference"~ "other"))    %>%  
+  mutate(intervention = "fixed") %>% 
+   mutate(outcome = "negative") 
+  
+
+```
+
+##Prepare Dataset
+
+```{r}
+df.exp6_summary <- df.exp6 %>%
+  group_by(CausalStructure) %>%
+  summarise(
+    abnormal_explanation_percentage = mean(abnormal_explanation == "abnormal") * 100,
+    normal_explanation_percentage = mean(normal_explanation == "normal") * 100,
+    nopreference_explanation_percentage = mean(nopreference_explanation == "no preference") * 100,
+    
+    abnormal_intervention_percentage = mean(abnormal_intervention == "abnormal") * 100,
+    normal_intervention_percentage = mean(normal_intervention == "normal") * 100,
+    nopreference_intervention_percentage = mean(nopreference_intervention == "no preference") * 100
+  ) %>% 
+    mutate(Outcome = "negative") %>% 
+    mutate(Experiment = "fixedint")
+
+write_csv(df.exp6_summary, "fixedint_neg.csv")
+
+```
+
+##Create Dataset including raw data from all conditions
+
+```{r}
+df.exp_all <- rbind(df.exp1, df.exp2, df.exp3, df.exp4, df.exp5, df.exp6)
+
+```
+
+# Bootstrapping 
+
+## DATA 
+
+### Data frame 
+
+```{r}
+df.boot = df.exp_all %>% 
+  select(workerid,
+         structure = CausalStructure,
+         outcome,
+         action = intervention,
+         explanation,
+         abnormal_intervention,
+         normal_intervention,
+         nopreference_intervention) %>% 
+  mutate(structure = tolower(structure),
+         intervention = abnormal_intervention,
+         intervention = ifelse(normal_intervention != "other", normal_intervention, intervention),
+         intervention = ifelse(nopreference_intervention != "other", nopreference_intervention, intervention),
+         intervention = factor(intervention,
+                               levels = c("abnormal", "no preference", "normal")),
+         explanation = factor(explanation,
+                               levels = c("abnormal", "no preference", "normal"))) %>% 
+  select(-contains("_"))
+
+```
+
+### Percentages 
+
+```{r}
+df.percentage = df.boot %>% 
+  count(structure, outcome, action, choice = intervention,
+        name = "intervention_n") %>% 
+  left_join(df.boot %>% 
+              count(structure, outcome, action, choice = explanation,
+                    name = "explanation_n"),
+            by = c("structure", "outcome", "action", "choice")) %>% 
+  group_by(structure, outcome, action) %>% 
+  mutate(intervention_p = intervention_n/sum(intervention_n),
+         explanation_p = explanation_n/sum(explanation_n)) %>% 
+  ungroup()
+```
+
+### Bootstrapped confidence intervals 
+
+```{r}
+set.seed(1)
+
+# percentages with bootstrapped confidence intervals 
+df.confidence = df.boot %>% 
+  group_by(structure, outcome, action) %>% 
+  nest() %>% 
+  mutate(bootstraps = map(.x = data,
+                          .f = ~ bootstrap(.x, n = 1000))) %>% 
+  unnest(bootstraps) %>% 
+  mutate(intervention = map(.x = strap, 
+                      .f = ~ .x %>% 
+                        as_tibble() %>% 
+                        count(intervention,
+                              name = "intervention_n",
+                              .drop = F) %>% 
+                        mutate(intervention_p = intervention_n/sum(intervention_n))),
+         explanation = map(.x = strap, 
+                      .f = ~ .x %>% 
+                        as_tibble() %>% 
+                        count(explanation,
+                              name = "explanation_n",
+                              .drop = F) %>% 
+                        mutate(explanation_p = explanation_n/sum(explanation_n)))) %>%
+  select(structure, outcome, action, intervention, explanation) %>%
+  unnest(c(intervention, explanation)) %>%
+  select(everything(), choice = intervention, -explanation) %>% 
+  group_by(structure, outcome, action, choice) %>%
+  summarize(intervention_low = as.numeric(quantile(intervention_p, probs = 0.025)),
+            intervention_high = as.numeric(quantile(intervention_p, probs = 0.975)),
+            explanation_low = as.numeric(quantile(explanation_p, probs = 0.025)),
+            explanation_high = as.numeric(quantile(explanation_p, probs = 0.975))) %>% 
+  ungroup()
+```
+
+### Combined data frame 
+
+```{r}
+df.combined = df.confidence %>%
+  left_join(df.percentage %>% 
+              select(-(contains("_n"))), 
+            by = c("structure", "outcome", "action", "choice")) %>% 
+  select(structure, outcome, action, choice, contains("intervention"),
+         contains("explanation"))
+```
+
+## PLOTS 
+
+### Read in model predictions 
+
+```{r, message=FALSE, warning=FALSE}
+df.prediction_intervention = read_csv("intervention_predictions.csv")
+df.prediction_explanation = read_csv("explanation_predictions.csv") %>% 
+  select(-truth)
+
+df.optimal_intervention_model = df.prediction_intervention %>% 
+  mutate(index = "intervention_prediction") %>% 
+  bind_rows(df.prediction_explanation %>% 
+              mutate(index = "explanation_prediction")) %>% 
+  select(structure = causal_structure,
+         outcome, 
+         action = intervention,
+         choice,
+         index,
+         prediction) %>% 
+  pivot_wider(names_from = index,
+              values_from = prediction)
+
+df.intervention_only_model = read_csv("explanation_predictions_intervention_only.csv")
+df.truth_only_model = read_csv("explanation_predictions_truth_only.csv")
+
+df.alternative_models = df.intervention_only_model %>% 
+  mutate(model = "intervention_only") %>% 
+  bind_rows(df.truth_only_model %>% 
+              mutate(model = "truth_only")) %>% 
+  select(structure = causal_structure,
+         outcome, 
+         action = intervention,
+         choice,
+         model, 
+         prediction) %>% 
+  pivot_wider(names_from = model,
+              values_from = prediction)
+
+df.models = df.optimal_intervention_model %>% 
+  left_join(df.alternative_models) 
+```
+
+### Bar plot 
+
+```{r, fig.width=20, fig.height=14, warning=FALSE, message=FALSE}
+
+df.plot = df.combined %>% 
+  mutate(choice = factor(choice,
+                         labels = c("abnormal", "no\npreference", "normal")),
+         outcome = factor(outcome,
+                          levels = c("positive", "negative"),
+                          labels = c("positive outcome", "negative outcome")),
+         action = factor(action,
+                         levels = c("hard", "soft", "fixed")))
+
+df.model = df.optimal_intervention_model %>%
+  left_join(df.alternative_models) %>% 
+  mutate(choice = factor(choice,
+                         labels = c("abnormal", "no\npreference", "normal")),
+         outcome = factor(outcome,
+                          levels = c("positive", "negative"),
+                          labels = c("positive outcome", "negative outcome")),
+         action = factor(action,
+                         levels = c("hard", "soft", "fixed")))
+
+df.model2 = df.model %>% 
+  select(-intervention_prediction) %>% 
+  pivot_longer(cols = c("explanation_prediction", "intervention_only", "truth_only"),
+               names_to = "model",
+               values_to = "prediction") %>% 
+  mutate(model = factor(model,
+                        levels = c("truth_only", "explanation_prediction", "intervention_only"))) %>% 
+  arrange(structure, outcome, action, choice, model)
+  
+p_intervention = ggplot(data = df.plot,
+                        mapping = aes(x = action,
+                                      y = intervention_p,
+                                      group = choice,
+                                      fill = action,
+                                      alpha = choice)) + 
+  geom_col(color = "black",
+           position = position_dodge(width = 0.9)) +
+  geom_linerange(mapping = aes(ymin = intervention_low,
+                               ymax = intervention_high),
+                 position = position_dodge(width = 0.9),
+                 alpha = 1,
+                 linewidth = 1) +
+  geom_point(data = df.model,
+             mapping = aes(y = intervention_prediction),
+             position = position_dodge(width = 0.9),
+             shape = 21,
+             size = 4,
+             show.legend = F) +
+  facet_grid(structure ~ outcome) +
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.25),
+                     labels = scales::label_percent()) +
+  scale_alpha_manual(values = c(0.4, 0.65, 0.9)) +
+  labs(title = "Intervention Task",
+       x = "type of intervention",
+       y = "percent selected") + 
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5)) + 
+  guides(fill = "none",
+         alpha = "none")
+
+p_explanation = ggplot(data = df.plot,
+               mapping = aes(x = action,
+                             y = explanation_p,
+                             group = choice,
+                             fill = action,
+                             alpha = choice)) + 
+  geom_col(color = "black",
+           position = position_dodge(width = 0.9)) +
+  geom_linerange(mapping = aes(ymin = explanation_low,
+                               ymax = explanation_high),
+                 position = position_dodge(width = 0.9),
+                 alpha = 1,
+                 linewidth = 1) +
+  geom_point(data = df.model2,
+             mapping = aes(y = prediction,
+                           shape = model),
+             position = position_dodge2(width = 0.9,
+                                        padding = 0.2),
+             size = 4,
+             show.legend = F) +
+  facet_grid(structure ~ outcome) +
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.25),
+                     labels = scales::label_percent()) +
+  scale_alpha_manual(values = c(0.4, 0.65, 0.9)) +
+  scale_shape_manual(values = c("truth_only" = 22,
+                                "explanation_prediction" = 21,
+                                "intervention_only" = 23)) +
+  labs(title = "Explanation Task",
+       x = "type of intervention",
+       y = "percent selected") + 
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5)) + 
+  guides(fill = "none")
+
+p_intervention + p_explanation + 
+  plot_layout(ncol = 1) + plot_annotation(tag_levels = "A") & 
+  theme(plot.tag = element_text(size = 40, face = "bold"))
+
+ggsave(filename = "../../../figures/plots/bars.pdf",
+       width = 20,
+       height = 14)
+```
+
+### Scatter plots 
+
+#### Scatter plot function 
+
+```{r}
+fun.scatter = function(data, xtitle, ytitle, legend = F){
+  p = ggplot(data = data,
+             mapping = aes(x = model,
+                           y = p,
+                           ymin = low,
+                           ymax = high)) +
+    geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
+    annotate(geom = "text",
+             x = 0,
+             y = 1,
+             hjust = 0,
+             label = str_c("r = ", round(cor(data$model, data$p), 2)),
+             size = 8) +
+    annotate(geom = "text",
+             x = 0,
+             y = 0.92,
+             hjust = 0,
+             label = str_c("RMSE = ", round(sqrt(mean((data$model -  data$p)^2)), 2)),
+             size = 8) +
+    geom_smooth(method = "lm",
+                color = "black",
+                alpha = 0.2,
+                show.legend = F) + 
+    geom_linerange(alpha = 0.2) +
+    geom_point(mapping = aes(fill = action),
+               alpha = 0.9,
+               shape = 21,
+               size = 4) +
+    scale_x_continuous(limits = c(0, 1),
+                       breaks = seq(0, 1, 0.25),
+                       labels = scales::label_percent()) +
+    scale_y_continuous(limits = c(0, 1),
+                       breaks = seq(0, 1, 0.25),
+                       labels = scales::label_percent()) +
+    labs(x = xtitle,
+         y = ytitle) + 
+    theme(legend.position = c(1, 0),
+          legend.justification = c(1.2, -0.1)) 
+  
+  if(legend == F){
+    p = p + theme(legend.position = "none")
+  }
+ 
+ return(p)
+}
+```
+
+#### Combined scatter plots 
+
+```{r, warning=FALSE, message=FALSE, fig.width=16, fig.height=12}
+df.plot = df.combined %>% 
+  left_join(df.models %>% 
+              mutate(choice = factor(choice,
+                                     levels = c("abnormal", "nopreference", "normal"),
+                                     labels = c("abnormal", "no preference", "normal")))) %>% 
+  mutate(structure = factor(structure,
+                            levels = c("conjunctive", "disjunctive")),
+         choice = factor(choice,
+                         labels = c("abnormal", "no\npreference", "normal")),
+         outcome = factor(outcome,
+                          levels = c("positive", "negative"),
+                          labels = c("positive outcome", "negative outcome")),
+         action = factor(action,
+                         levels = c("hard", "soft", "fixed")))
+
+df.plot.intervention = df.plot %>% 
+  select(structure, outcome, action, choice,
+         low = intervention_low, high = intervention_high,
+         p = intervention_p, model = intervention_prediction)
+
+df.plot.explanation = df.plot %>%
+  select(structure, outcome, action, choice,
+         low = explanation_low, high = explanation_high,
+         p = explanation_p,
+         explanation_prediction,
+         intervention_only,
+         truth_only)
+  
+scatter1 = fun.scatter(data = df.plot.intervention,
+                       xtitle = "model prediction",
+                       ytitle = "intervention choices",
+                       legend = T)
+
+scatter2 = fun.scatter(data = df.plot.explanation %>% 
+                         mutate(model = intervention_only),
+                       xtitle = "relevance only model",
+                       ytitle = "explanation choices")
+
+scatter3 = fun.scatter(data = df.plot.explanation %>% 
+                         mutate(model = truth_only),
+                       xtitle = "accuracy only model",
+                       ytitle = "explanation choices")
+
+scatter4 = fun.scatter(data = df.plot.explanation %>% 
+                         mutate(model = explanation_prediction),
+                       xtitle = "combined model",
+                       ytitle = "explanation choices")
+
+scatter1 + scatter2 + scatter3 + scatter4 + 
+  plot_layout(ncol = 2) + 
+  plot_annotation(tag_levels = "A") & 
+  theme(text = element_text(size = 30),
+        plot.tag = element_text(size = 40, face = "bold"),
+        plot.margin = margin(t = 0, 
+                             r = 0.35, 
+                             b = 0, 
+                             l = 0,
+                             "cm"))
+
+ggsave(filename = "../../../figures/plots/scatter.pdf",
+       width = 16,
+       height = 12)
+```
+
+#### Overall 
+
+```{r, warning=FALSE, message=FALSE, fig.width=8, fig.height=6}
+df.scatter = df.plot %>% 
+  ungroup() %>% 
+  pivot_longer(cols = contains("_"),
+               names_to = c("task", "index"),
+               names_sep = "_",
+               values_to = "value") %>% 
+  pivot_wider(names_from = index,
+              values_from = value) %>% 
+  left_join(df.model %>% 
+              pivot_longer(cols = contains("_"),
+                           names_to = c("task", "index"),
+                           names_sep = "_",
+                           values_to = "model") %>% 
+              select(-index),
+            by = c("structure", "outcome", "action", "choice", "task"))
+
+
+ggplot(data = df.scatter,
+       mapping = aes(x = model,
+                     y = p,
+                     ymin = low,
+                     ymax = high)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
+  annotate(geom = "text",
+           x = 0,
+           y = 1,
+           hjust = 0,
+           label = str_c("r = ", round(cor(df.scatter$model, df.scatter$p), 2)),
+           size = 8) +
+  annotate(geom = "text",
+           x = 0,
+           y = 0.92,
+           hjust = 0,
+           label = str_c("RMSE = ", round(sqrt(mean((df.scatter$model -  df.scatter$p)^2)), 2)),
+           size = 8) +
+  geom_smooth(method = "lm",
+              color = "black",
+              alpha = 0.2,
+              show.legend = F) + 
+  geom_linerange(alpha = 0.2) +
+  geom_point(mapping = aes(fill = action),
+                           # shape = task),
+             shape = 21,
+             size = 2) +
+  scale_x_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.25),
+                     labels = scales::label_percent()) +
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.25),
+                     labels = scales::label_percent()) +
+  # scale_shape_manual(values = c("intervention" = 21,
+  #                               "explanation" = 22)) +
+  labs(x = "model prediction",
+       y = "participant choices") +
+  theme(legend.position = c(1, 0),
+        legend.justification = c(1.2, -0.1))
+
+ggsave(filename = "../../../figures/plots/scatter.pdf",
+       width = 8,
+       height = 6)
+```
+
+## STATS 
+
+### Correlations and RMSE 
+
+```{r, warning=FALSE, message=FALSE}
+df.combined %>% 
+  ungroup() %>% 
+  select(-(contains("low") | contains("high"))) %>%
+  mutate(choice = str_replace(choice, "no preference", "nopreference")) %>% 
+  left_join(df.alternative_models) %>% 
+  left_join(df.optimal_intervention_model %>% 
+              select(-intervention_prediction)) %>% 
+  summarize(across(c(explanation_prediction, intervention_only, truth_only),
+                   list(r = ~ cor(.x, explanation_p),
+                        rmse = ~ sqrt(mean((.x - explanation_p)^2))),
+                   .names = "{.col}.{.fn}")) %>% 
+  pivot_longer(cols = everything(),
+               names_to = c("model", "stat"),
+               names_sep = "\\.",
+               values_to = "value") %>% 
+  pivot_wider(names_from = stat,
+              values_from = value) %>% 
+  mutate(across(where(is.numeric),
+                ~ round(., 2)))
+```
+
+

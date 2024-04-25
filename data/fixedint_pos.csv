@@ -1,0 +1,3 @@
+"CausalStructure","abnormal_explanation_percentage","normal_explanation_percentage","nopreference_explanation_percentage","abnormal_intervention_percentage","normal_intervention_percentage","nopreference_intervention_percentage","Outcome","Experiment"
+"Conjunctive","53.535353535353536","9.090909090909092","37.37373737373738","80.8080808080808","11.11111111111111","8.080808080808081","positive","fixedint"
+"Disjunctive","27.27272727272727","18.181818181818183","54.54545454545454","65.65656565656566","12.121212121212121","22.22222222222222","positive","fixedint"

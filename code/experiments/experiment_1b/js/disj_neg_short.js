@@ -1,0 +1,350 @@
+/*
+* File: disj_neg_short.js
+* -----
+* Information for putting the pages for the DN trial together.
+* This is the variation in which the participant runs through the CN trial first, then the DN trial. 
+*/
+
+// DN short instructions
+let dn_arr_short = [];
+let dn_len_short = trialData["disjunctive_negative"]["instructions_short"].length;
+for (let i = 0; i < dn_len_short; i++) {
+    dn_arr_short.push(
+        trialData["disjunctive_negative"]["instructions_short"][i]
+    );
+}
+
+var instruction_pages_short = [];
+for (var i = 0; i < dn_len_short; i++) {
+    let slide = '<div><img class="dn_image" src="media/dn_short/setup_' + i + '.png"></img>' +
+        '<p>' + dn_arr_short[i] + '</p></div>';
+    instruction_pages_short.push(slide);
+}
+
+const dn_instructions_short = {
+    type: jsPsychInstructions,
+    pages: instruction_pages_short,
+    show_clickable_nav: true,
+    on_start: function() {
+        jsPsych.setProgressBar(0.4375);
+    },
+    on_finish: function() { 
+        var prog = jsPsych.getProgressBarCompleted();
+        jsPsych.setProgressBar(prog + 0.0625); 
+    }
+};
+
+
+// setup comprehension checks
+dn_arr_short = [];
+dn_len_short = trialData["disjunctive_negative"]["instructions_comp"].length;
+for (let i = 0; i < dn_len_short; i++) {
+    dn_arr_short.push({
+        name: 'dn_instructions_comp_' + [i],
+        prompt: trialData["disjunctive_negative"]["instructions_comp"][i]["question"],
+        options: trialData["disjunctive_negative"]["instructions_comp"][i]["options"],
+        required: true
+    });
+}
+const dn_instructions_comp_short = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "Please answer the following comprehension check questions.",
+    questions: dn_arr_short,
+    on_start: function() {
+        jsPsych.setProgressBar(0.5);
+    },
+    on_finish: function() {
+        var prog = jsPsych.getProgressBarCompleted();
+        jsPsych.setProgressBar(prog + 0.0625); 
+    }
+};
+
+
+
+// round one
+dn_arr_short = [];
+dn_len_short = trialData["disjunctive_negative"]["round_one_short"].length;
+for (let i = 0; i < dn_len_short; i++) {
+    dn_arr_short.push(
+        trialData["disjunctive_negative"]["round_one_short"][i]
+    );
+}
+
+var round_one_pages_short = [];
+for (var i = 0; i < dn_len_short; i++) {
+    let slide = '<div><img class="dn_image" src="media/dn_short/round_one_' + i + '.png"></img>' +
+        '<p>' + dn_arr_short[i] + '</p></div>';
+    round_one_pages_short.push(slide);
+}
+const dn_round_one_short = {
+    type: jsPsychInstructions,
+    pages: round_one_pages_short,
+    show_clickable_nav: true,
+    on_start: function() {
+        jsPsych.setProgressBar(0.5625);
+    },
+    on_finish: function() {
+        var prog = jsPsych.getProgressBarCompleted();
+        jsPsych.setProgressBar(prog + 0.0625); 
+    }
+};
+
+
+// round one comprehension checks
+const dn_round_one_comp_q1_short = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "Please respond with whether or not the following statements are true.",
+    questions: [
+        {
+            name: 'dn_round_one_comp_q1_0',
+            prompt: trialData["disjunctive_negative"]["round_one_comp_q1"][0]["question"],
+            options: trialData["disjunctive_negative"]["round_one_comp_q1"][0]["options"],
+            required: true,
+        },
+        {
+            name: 'dn_round_one_comp_q1_1',
+            prompt: trialData["disjunctive_negative"]["round_one_comp_q1"][1]["question"],
+            options: trialData["disjunctive_negative"]["round_one_comp_q1"][1]["options"],
+            required: true,
+        },
+    ],
+    on_start: function() {
+        jsPsych.setProgressBar(0.625);
+    }
+};
+const dn_round_one_comp_q2_short = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "Please respond with whether or not the following statements are true.",
+    questions: [
+        {
+            name: 'dn_round_two_comp_q2_0',
+            prompt: trialData["disjunctive_negative"]["round_one_comp_q2"][0]["question"],
+            options: trialData["disjunctive_negative"]["round_one_comp_q2"][0]["options"],
+            required: true,
+        },
+        {
+            name: 'dn_round_two_comp_q2_1',
+            prompt: trialData["disjunctive_negative"]["round_one_comp_q2"][1]["question"],
+            options: trialData["disjunctive_negative"]["round_one_comp_q2"][1]["options"],
+            required: true,
+        },
+    ],
+    on_finish: function() {
+        var prog = jsPsych.getProgressBarCompleted();
+        jsPsych.setProgressBar(prog + 0.0625); 
+    }
+};
+
+
+// round two
+dn_arr_short = [];
+dn_len_short = trialData["disjunctive_negative"]["round_two_short"].length;
+for (let i = 0; i < dn_len_short; i++) {
+    dn_arr_short.push(
+        trialData["disjunctive_negative"]["round_two_short"][i]
+    );
+}
+
+var round_two_pages_short = [];
+for (var i = 0; i < dn_len_short; i++) {
+    let slide = '<div><img class="dn_image" src="media/dn_short/round_two_' + i + '.png"></img>' +
+        '<p>' + dn_arr_short[i] + '</p></div>';
+    round_two_pages_short.push(slide);
+}
+const dn_round_two_short = {
+    type: jsPsychInstructions,
+    pages: round_two_pages_short,
+    show_clickable_nav: true,
+    on_start: function () {
+        jsPsych.setProgressBar(0.6875);
+    },
+    on_finish: function () {
+        var prog = jsPsych.getProgressBarCompleted();
+        jsPsych.setProgressBar(prog + 0.0625); 
+    }
+};
+
+
+const dn_selection_task_short = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: `<div style="text-align:center; padding:20px; max-width:900px;">` +
+        "In the next round of the game, \
+        Alice gets to turn one of the switches <strong>OFF</strong>. \
+        The other switch will turn <strong>ON</strong> or <strong>OFF</strong> \
+        based on its probability. Before she decides which switch to turn <strong>OFF</strong>, \
+        you can explain why your team scored a point in the last round.<br></br>" +
+        "<img class='dn_image' src='media/dn_short/explanation_selection.png'></img>",
+    questions: [
+        {
+            name: 'dn_selection_task',
+            prompt: trialData["disjunctive_negative"]["selection_task"]["question"],
+            options: trialData["disjunctive_negative"]["selection_task"]["options"],
+            required: true,
+        },
+    ],
+    on_start: function() {
+        jsPsych.setProgressBar(0.75);
+    },
+    on_finish: function() {
+        var prog = jsPsych.getProgressBarCompleted();
+        jsPsych.setProgressBar(prog + 0.0625); 
+    }
+}
+
+const dn_loop_node_instructions_short = {
+    timeline: [
+        {
+            type: jsPsychHtmlButtonResponse,
+            stimulus: 'Unfortunately, you missed some of the comprehension ' +
+                'questions.</p> <p> Please review the instructions again.',
+            choices: ['Review'],
+        },
+        dn_instructions_short,
+        dn_instructions_comp_short
+    ],
+    loop_function: function (data) {
+        var trial_data = jsPsych.data.getLastTrialData().filter({ trial_type: 'survey-multi-choice' }).trials[0]["response"];
+        const dn_instructions_key = trialData["disjunctive_negative"]["dn_instructions_key"];
+
+        if (JSON.stringify(trial_data) === JSON.stringify(dn_instructions_key)) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+}
+
+const dn_conditional_node_instructions_short = {
+    timeline: [
+        dn_loop_node_instructions_short
+    ],
+    conditional_function: function(){
+        // get the data from the previous trial
+        var trial_data = jsPsych.data.getLastTrialData().filter({ trial_type: 'survey-multi-choice' }).trials[0]["response"];
+        const dn_instructions_key = trialData["disjunctive_negative"]["dn_instructions_key"];
+
+        // if the participant's respone doesn't match the key, replay the instructions and comp checks
+        if (JSON.stringify(trial_data) === JSON.stringify(dn_instructions_key)) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+}
+
+
+const dn_loop_node_round_one_q1_short = {
+    timeline: [
+        {
+            type: jsPsychHtmlButtonResponse,
+            stimulus: 'Unfortunately, you missed some of the comprehension ' +
+                'questions.</p> <p> Please review the instructions again.',
+            choices: ['Review'],
+        },
+        dn_round_one_short,
+        dn_round_one_comp_q1_short,
+    ],
+    loop_function: function (data) {
+        const participant_response = jsPsych.data.getLastTrialData().filter({ trial_type: 'survey-multi-choice' }).trials[0]["response"];
+        const dn_participant_key = trialData["disjunctive_negative"]["dn_gameplay_q1_key"];
+
+        // if participant and teammate responses match the key, return false, do not loop
+        if (!!(JSON.stringify(participant_response) === JSON.stringify(dn_participant_key))) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+}
+
+const dn_conditional_node_round_one_q1_short = {
+    timeline: [
+        dn_loop_node_round_one_q1_short
+    ],
+    conditional_function: function(){
+        const participant_response = jsPsych.data.getLastTrialData().filter({ trial_type: 'survey-multi-choice' }).trials[0]["response"];
+        const dn_participant_key = trialData["disjunctive_negative"]["dn_gameplay_q1_key"];
+
+        // if participant and teammate responses DO NOT match the key, return true to run the loop node
+        if (!(JSON.stringify(participant_response) === JSON.stringify(dn_participant_key))) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+}
+
+const dn_loop_node_round_one_q2_short = {
+    timeline: [
+        {
+            type: jsPsychHtmlButtonResponse,
+            stimulus: 'Unfortunately, you missed some of the comprehension ' +
+                'questions.</p> <p> Please review the instructions again.',
+            choices: ['Review'],
+        },
+        dn_round_one_short,
+        dn_round_one_comp_q2_short,
+    ],
+    loop_function: function (data) {
+        const teammate_response = jsPsych.data.getLastTrialData().filter({ trial_type: 'survey-multi-choice' }).trials[0]["response"];
+        const dn_teammate_key = trialData["disjunctive_negative"]["dn_gameplay_q2_key"];
+
+        // if participant and teammate responses match the key, return false, do not loop
+        if (!!(JSON.stringify(teammate_response) === JSON.stringify(dn_teammate_key))) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+}
+
+const dn_conditional_node_round_one_q2_short = {
+    timeline: [
+        dn_loop_node_round_one_q2_short
+    ],
+    conditional_function: function(){
+        const teammate_response = jsPsych.data.getLastTrialData().filter({ trial_type: 'survey-multi-choice' }).trials[0]["response"];
+        const dn_teammate_key = trialData["disjunctive_negative"]["dn_gameplay_q2_key"];
+
+        // if participant and teammate responses DO NOT match the key, return true to run the loop node
+        if (!(JSON.stringify(teammate_response) === JSON.stringify(dn_teammate_key))) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+}
+
+
+const dn_intervention_task_short = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: `<div style="text-align:center; max-width:900px;">` +
+        "Now, imagine you had one trial round in which you were given the chance to turn one of the switches <strong>OFF</strong> manually. \
+        The other switch will turn <strong>ON</strong> or <strong>OFF</strong> based on its probability." +
+        "<img class='dp_image' src='media/dn_short/intervention_task.png'></img>",
+    questions: [
+        {
+            name: 'dn_intervention_task',
+            prompt: trialData["disjunctive_negative"]["intervention_task"]["question"],
+            options: trialData["disjunctive_negative"]["intervention_task"]["options"],
+            required: true,
+        },
+    ],
+    // on_start: function() {
+    //     jsPsych.setProgressBar(0.25);
+    // }
+};
+
+const dn_short = [
+    dn_instructions_short,
+    dn_instructions_comp_short,
+    dn_conditional_node_instructions_short,
+    dn_intervention_task_short,
+    dn_round_one_short,
+    dn_round_one_comp_q1_short,
+    dn_conditional_node_round_one_q1_short,
+    dn_round_one_comp_q2_short,
+    dn_conditional_node_round_one_q2_short,
+    dn_round_two_short,
+    dn_selection_task_short
+]

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Explanation Valence 2 </title>
+    <link rel="stylesheet" href='css/jquery-ui-edit.css' />
+    <link rel="stylesheet" href='css/jspsych.css' />
+    <link rel="stylesheet" href='css/jquery-ui-slider-pips-edit.css' />
+
+    <script src='js/jquery.min.js'></script>
+    <script src='js/jquery-ui.min.js'></script>
+    <script src='js/jquery-ui-slider-pips.js'></script>
+    <script src="https://proliferate.alps.science/static/js/proliferate.js"> </script>
+
+    <script src='js/jspsych.js'></script>
+    <script src='js/jspsych-preload.js'></script>
+    <script src='js/jspsych-instructions.js'></script>
+    <script src='js/jspsych-survey-multi-select.js'></script>
+    <script src='js/jspsych-survey-multi-choice.js'></script>
+    <script src='js/jspsych-html-slider-response.js'></script>
+
+    <script src='js/jspsych-html-button-response.js'></script>
+    <script src='js/jspsych-instructions.js'></script>
+    <script src='js/jspsych-survey-html-form.js'></script>
+
+    <script src='js/consent.js'></script>
+    <script src='js/demographics.js'></script>
+    <script src='js/feedback-demographics.js'></script>
+    <script src='js/trial_data.js'></script>
+    <script src='js/utils.js'></script>
+
+    <script src='js/condition_one.js'></script>
+    <script src='js/condition_two.js'></script>
+    <script src='js/condition_three.js'></script>
+    <script src='js/condition_four.js'></script>
+
+</head>
+
+<body></body>
+<script>
+
+    let timeline = []
+
+    /* preload media */
+    var preload = {
+        type: jsPsychPreload,
+        images: [
+            ...trialData["images"]
+        ],
+        show_detailed_errors: true
+    }
+    timeline.push(preload);
+
+    // prolific
+    var condition = get_url_param("condition", "condition1");
+    var trialCondition = ["condition1", "condition2", "condition3", "condition4"];
+    trialCondition = trialCondition[condition - 1];
+
+    // Data display
+    let jsPsych = initJsPsych({
+        show_progress_bar: true,
+        auto_update_progress_bar: false,
+        on_finish: () => {
+            jsPsych.setProgressBar(1.0);
+            jsPsych.data.displayData('csv');
+            let trial_data = jsPsych.data.get().filter([
+                { trial_type: 'html-slider-response' }
+            ]).trials;
+            
+            var response = {};
+            if (trialCondition === "condition1") {
+                let condition_1_responses = [];
+                for (let i=0; i<trial_data.length; i++) {
+                    condition_1_responses.push(trial_data[i]["response"])
+                };
+
+                // record explanation task response
+                condition_1_responses.forEach((element, index) => {
+                    if (index === 0) {
+                        response['cp_probability_task_one_response'] = element;
+                    } else if (index === 1) {
+                        response['cp_probability_task_two_response'] = element;
+                    } else if (index === 2) {
+                        response['dp_probability_task_one_response'] = element;
+                    } else if (index === 3) {
+                        response['dp_probability_task_two_response'] = element;
+                    } else if (index === 4) {
+                        response['cn_probability_task_one_response'] = element;
+                    } else if (index === 5) {
+                        response['cn_probability_task_two_response'] = element;
+                    } else if (index === 6) {
+                        response['dn_probability_task_one_response'] = element;
+                    } else {
+                        response['dn_probability_task_two_response'] = element;
+                    } 
+                });
+            } else if (trialCondition === "condition2") {
+                let condition_2_responses = [];
+                for (let i=0; i<trial_data.length; i++) {
+                    condition_2_responses.push(trial_data[i]["response"])
+                };
+
+                // record explanation task response
+                condition_2_responses.forEach((element, index) => {
+                    if (index === 0) {
+                        response['dp_probability_task_one_response'] = element;
+                    } else if (index === 1) {
+                        response['dp_probability_task_two_response'] = element;
+                    } else if (index === 2) {
+                        response['cp_probability_task_one_response'] = element;
+                    } else if (index === 3) {
+                        response['cp_probability_task_two_response'] = element;
+                    } else if (index === 4) {
+                        response['dn_probability_task_one_response'] = element;
+                    } else if (index === 5) {
+                        response['dn_probability_task_two_response'] = element;
+                    } else if (index === 6) {
+                        response['cn_probability_task_one_response'] = element;
+                    } else {
+                        response['cn_probability_task_two_response'] = element;
+                    } 
+                });
+            } else if (trialCondition === "condition3") {
+                let condition_3_responses = [];
+                for (let i=0; i<trial_data.length; i++) {
+                    condition_3_responses.push(trial_data[i]["response"])
+                };
+
+                // record explanation task response
+                condition_3_responses.forEach((element, index) => {
+                    if (index === 0) {
+                        response['cn_probability_task_one_response'] = element;
+                    } else if (index === 1) {
+                        response['cn_probability_task_two_response'] = element;
+                    } else if (index === 2) {
+                        response['dn_probability_task_one_response'] = element;
+                    } else if (index === 3) {
+                        response['dn_probability_task_two_response'] = element;
+                    } else if (index === 4) {
+                        response['cp_probability_task_one_response'] = element;
+                    } else if (index === 5) {
+                        response['cp_probability_task_two_response'] = element;
+                    } else if (index === 6) {
+                        response['dp_probability_task_one_response'] = element;
+                    } else {
+                        response['dp_probability_task_two_response'] = element;
+                    } 
+                });
+            } else if (trialCondition === "condition4") {
+                let condition_4_responses = [];
+                for (let i=0; i<trial_data.length; i++) {
+                    condition_4_responses.push(trial_data[i]["response"])
+                };
+
+                // record explanation task response
+                condition_4_responses.forEach((element, index) => {
+                    if (index === 0) {
+                        response['dn_probability_task_one_response'] = element;
+                    } else if (index === 1) {
+                        response['dn_probability_task_two_response'] = element;
+                    } else if (index === 2) {
+                        response['cn_probability_task_one_response'] = element;
+                    } else if (index === 3) {
+                        response['cn_probability_task_two_response'] = element;
+                    } else if (index === 4) {
+                        response['dp_probability_task_one_response'] = element;
+                    } else if (index === 5) {
+                        response['dp_probability_task_two_response'] = element;
+                    } else if (index === 6) {
+                        response['cp_probability_task_one_response'] = element;
+                    } else {
+                        response['cp_probability_task_two_response'] = element;
+                    } 
+                });
+            }
+
+            let feedback = jsPsych.data.get().filter({ "page_type": "exit_survey" }).values()[0]["response"].feedback
+            let gender = jsPsych.data.get().filter({ "page_type": "exit_survey" }).values()[0]["response"].gender
+            if (gender == "other_gender" || typeof gender == "undefined") {
+                gender = "other_gender"
+            };
+            let age = parseInt(jsPsych.data.get().filter({ "page_type": "exit_survey" }).values()[0]["response"].age)
+            let race = jsPsych.data.get().filter({ "page_type": "exit_survey" }).values()[0]["response"].race
+            if (race == "other_race" || typeof race == "undefined") {
+                race = "other_race"
+            };
+            let ethnicity = jsPsych.data.get().filter({ "page_type": "exit_survey" }).values()[0]["response"].ethnicity
+            if (typeof ethnicity == "undefined") {
+                ethnicity = ""
+            }
+            let demographics = {
+                "feedback": feedback,
+                "age": age,
+                "gender": gender,
+                "race": race,
+                "ethnicity": ethnicity
+            }
+
+            let data_final = {
+                "responses": response,
+                "participants": demographics,
+            }
+        
+            proliferate.submit(data_final);
+
+            $('#jspsych-content').html('<div style="margin: auto;"> <p> Thank you for' +
+                ' participating in this experiment! </p> <p> Redirecting you back to' +
+                ' Prolific... </p>');
+            setTimeout(function () { 
+                window.location.replace("https://app.prolific.co/submissions/complete?cc=C13TXS9N");
+            }, 400);
+        }});
+
+    // Consent page 
+    timeline.push(consent);
+
+    if (trialCondition === "condition1") {
+        timeline.push(...condition_one);
+    } else if (trialCondition === "condition2") {
+        timeline.push(...condition_two);
+    } else if (trialCondition === "condition3") {
+        timeline.push(...condition_three);
+    } else if (trialCondition === "condition4") {
+        timeline.push(...condition_four);
+    }
+
+    // demographics
+    timeline.push(feedback_demographics);
+
+    jsPsych.run(timeline);
+</script>
+</html>

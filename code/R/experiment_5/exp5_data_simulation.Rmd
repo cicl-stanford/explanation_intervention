@@ -1,0 +1,221 @@
+---
+title: "Exp 4 Data Simulation"
+output: html_document
+date: '2023-04-17'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load packages
+
+```{r, message=FALSE, warning=FALSE}
+library("pwr")
+library("car")
+library("brms")  
+library("knitr")       # for RMarkdown commands 
+library("kableExtra")  # for nice tables
+library("emmeans")
+library("lme4")
+library("tidybayes")
+library("tidyverse") 
+```
+
+```{r}
+#df.data<-data.frame()
+df <- matrix(0, ncol = 8, nrow = 100)
+df.data <- data.frame(df)
+
+df.data$X1 <- rnorm(n = 100, mean = 20, sd = 15);
+df.data$X2 <- rnorm(n = 100, mean = 80, sd = 15);
+df.data$X3 <- rnorm(n = 100, mean = 100, sd = 15);
+df.data$X4 <- rnorm(n = 100, mean = 100, sd = 15);
+df.data$X5 <- rnorm(n = 100, mean = 0, sd = 15);
+df.data$X6 <- rnorm(n = 100, mean = 0, sd = 15);
+df.data$X7 <- rnorm(n = 100, mean = 20, sd = 15);
+df.data$X8 <- rnorm(n = 100, mean = 80, sd = 15);
+
+df.data <- df.data %>% 
+  rename(
+    "Pos_Conj_80" = `X1`,
+   "Pos_Conj_20" = `X2`,
+   "Pos_Disj_80" = `X3`,
+   "Pos_Disj_20" = `X4`,
+   "Neg_Conj_80" = `X5`,
+   "Neg_Conj_20" = `X6`,
+   "Neg_Disj_80" = `X7`,
+   "Neg_Disj_20" = `X8`
+    ) 
+  
+df.data$ID <- 1:nrow(df.data)
+
+```
+
+
+## Data Editing
+
+```{r}
+sim.df <- df.data %>% 
+  gather("index", "rating", -ID)%>% 
+  mutate(Structure  =
+           case_when(
+             str_detect(index, "_Conj_") ~ "Conjunctive",
+             str_detect(index, "_Disj_") ~ "Disjunctive"
+           )) %>% 
+  mutate(Outcome  =
+           case_when(
+             str_detect(index, "Pos_") ~ "Positive",
+             str_detect(index, "Neg_") ~ "Negative"
+           )) %>% 
+  mutate(Switch =
+           case_when(
+             str_detect(index, "_80") ~ "probability_20",
+             str_detect(index, "_20") ~ "probability_80"
+           )) %>% 
+ mutate(Structure= factor(Structure, levels=c("Conjunctive", "Disjunctive"))) %>% 
+ mutate(Outcome= factor(Outcome, levels=c("Positive", "Negative"))) 
+
+ #mutate(Switch= factor(Switch, levels=c("20", "80"))) 
+
+```
+
+## Model fitting 
+
+```{r}
+model <- lmer(rating ~ Structure * Outcome * Switch + (1 | ID),  sim.df)
+joint_tests(model)
+
+model.brm = brm(formula = rating ~ Structure * Outcome * Switch + (1 | ID),
+                data = sim.df, 
+                file = "cache/model",
+                seed = 1)
+
+model.brm 
+joint_tests(model)
+```
+
+```{r}
+#### Set Theme
+myTheme <-   theme(axis.title.x  = element_blank(), 
+                   axis.title.y = element_text(color="black", size = 18, vjust=.9), 
+                   axis.text.x = element_text(color="black", size = 16),
+                   axis.text.y = element_text(color="black", size = 18), 
+                   strip.text.x = element_text(color="black", size = 16),
+                   legend.text = element_text(color="black", size = 12),
+                   panel.grid.major = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   strip.background = element_rect(fill="white"),
+                  # legend.title = element_blank()
+)
+
+Fig <- sim.df %>% 
+  ggplot(aes(x=Structure, y=rating, group = Switch, fill = Switch)) +
+  #coord_cartesian(ylim = c(0,10)) +
+  #scale_y_continuous(breaks = seq(0, 10, by=1))+
+  stat_summary(fun = mean, geom = "bar", colour = "black", alpha=0.7, position = "dodge",) +
+  stat_summary(fun.data = mean_cl_boot, geom = "linerange", width = 1, size=1, position = position_dodge(width = 0.90)) +
+  #geom_jitter(position = position_jitter(jitter.height = 0.2, jitter.width=0.15), alpha = 
+  #              0.06, colour="black")+
+  labs( y="Likelihood Rating")+
+  #scale_fill_brewer(palette="Paired")+
+  #guides(fill = FALSE, colour = FALSE)+
+  theme_bw()+
+  facet_wrap(~Outcome)+
+  myTheme
+  theme(axis.text.x = element_text(angle = 15, hjust = 1, color="black", size = 14))
+
+
+#Show plot
+plot(Fig)
+ggsave(Fig, file="Fig.png", dpi=400, height = 4, width = 7)
+```
+
+
+## Hypothesis tests 
+
+### H1: Switch
+
+```{r}
+model.brm %>% 
+    emmeans(~ Switch) %>% 
+    gather_emmeans_draws() %>% 
+    rename(draw = .draw, value = .value) %>% 
+    pivot_wider(names_from = Switch,
+                values_from = value) %>% 
+    mutate(difference = `80` - `20`) %>% 
+    summarize(difference_mean = mean(difference),
+              difference_low = quantile(difference, 0.025),
+              difference_high = quantile(difference, 0.975))
+```
+
+### H2: Structure
+
+```{r}
+model.brm %>% 
+    emmeans(~ Structure) %>% 
+    gather_emmeans_draws() %>% 
+    rename(draw = .draw, value = .value) %>% 
+    pivot_wider(names_from = Structure,
+                values_from = value) %>% 
+    mutate(difference = Disjunctive - Conjunctive) %>% 
+    summarize(difference_mean = mean(difference),
+              difference_low = quantile(difference, 0.025),
+              difference_high = quantile(difference, 0.975))
+```
+
+### H3: Outcome
+
+```{r}
+model.brm %>% 
+    emmeans(~ Outcome) %>% 
+    gather_emmeans_draws() %>% 
+    rename(draw = .draw, value = .value) %>% 
+    pivot_wider(names_from = Outcome,
+                values_from = value) %>% 
+    mutate(difference = Positive - Negative) %>% 
+    summarize(difference_mean = mean(difference),
+              difference_low = quantile(difference, 0.025),
+              difference_high = quantile(difference, 0.975))
+```
+
+### H4: Interaction
+
+```{r}
+df.samples = model.brm %>% 
+    emmeans(~ Outcome + Structure + Switch) %>% 
+    gather_emmeans_draws() %>% 
+    rename(draw = .draw, value = .value)
+
+# for positive outcomes
+df.samples %>% 
+    filter(Outcome == "Positive") %>% 
+    pivot_wider(names_from = Switch,
+                values_from = value) %>% 
+    mutate(difference = `80` - `20`) %>% 
+    select(Structure, draw, difference) %>% 
+    pivot_wider(names_from = Structure,
+                values_from = difference) %>% 
+    mutate(difference = Conjunctive - Disjunctive) %>% 
+    summarize(difference_mean = mean(difference),
+              difference_low = quantile(difference, 0.025),
+              difference_high = quantile(difference, 0.975))
+
+# for negative outcomes
+df.samples %>% 
+    filter(Outcome == "Negative") %>% 
+    pivot_wider(names_from = Switch,
+                values_from = value) %>% 
+    mutate(difference = `80` - `20`) %>% 
+    select(Structure, draw, difference) %>% 
+    pivot_wider(names_from = Structure,
+                values_from = difference) %>% 
+    mutate(difference = Conjunctive - Disjunctive) %>% 
+    summarize(difference_mean = mean(difference),
+              difference_low = quantile(difference, 0.025),
+              difference_high = quantile(difference, 0.975))
+```
+
+
+
+
