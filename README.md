@@ -48,13 +48,17 @@ See the rendered file <a href="https://cicl-stanford.github.io/father-dont-forgi
 
 contains all the experiment code. You can preview the experiments below:
 
-Experiment 1: <a href="https://cicl-stanford.github.io/father-dont-forgive/experiment1/index.html?condition=1">Click here!</a>
+Condition Hard Intervention / Positive Outcome: <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=1">Click here!</a>
 
-Experiment 2a: <a href="https://cicl-stanford.github.io/father-dont-forgive/experiment2a/index.html?condition=1">Click here!</a>
+Condition Hard Intervention / Negative Outcome: <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=3">Click here!</a>
 
-Experiment 2b: <a href="https://cicl-stanford.github.io/father-dont-forgive/experiment2b/index.html?condition=1">Click here!</a>
+Condition Soft Intervention / Positive Outcome: <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=1">Click here!</a>
 
-Experiment 3: <a href="https://cicl-stanford.github.io/father-dont-forgive/experiment3/index.html?condition=1">Click here!</a>
+Condition Soft Intervention / Negative Outcome: <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=3">Click here!</a>
+
+Condition Fixed Intervention / Positive Outcome: <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_4/index.html?condition=1">Click here!</a>
+
+Condition Fixed Intervention / Negative Outcome: <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_4/index.html?condition=3">Click here!</a>
 
 
 ### data 
