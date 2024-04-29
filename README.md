@@ -105,19 +105,21 @@ contains a pdf of the CogSci 2024 paper.
 
 ## CRediT
 
-| Term                       | Definition                                                                                                                                                                                                    | Lara | Jacqueline | Jeong | Cindy | Thomas | Tobias |
-|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|------------|-------|-------|--------|--------|
-| Conceptualization          | Ideas; formulation or evolution of overarching research goals and aims                                                                                                                                        | X    |            |       |       | x      | x      |
-| Methodology                | Development or design of methodology; creation of models                                                                                                                                                      | X    | X          | X     |       |        | x      |
-| Software                   | Programming, software development; designing computer programs; implementation of the computer code and supporting algorithms; testing of existing code components                                            | X    | X          | X     | x     |        | x      |
-| Validation                 | Verification, whether as a part of the activity or separate, of the overall replication/ reproducibility of results/experiments and other research outputs                                                    | X    |            |       |       |        | x      |
-| Formal analysis            | Application of statistical, mathematical, computational, or other formal techniques to analyze or synthesize study data                                                                                       | X    | X          |       |       |        | x      |
-| Investigation              | Conducting a research and investigation process, specifically performing the experiments, or data/evidence collection                                                                                         | X    |            | X     |       |        |        |
-| Resources                  | Provision of study materials, reagents, materials, patients, laboratory samples, animals, instrumentation, computing resources, or other analysis tools                                                       |      |            |       |       |        |        |
-| Data Curation              | Management activities to annotate (produce metadata), scrub data and maintain research data (including software code, where it is necessary for interpreting the data itself) for initial use and later reuse | X    |            |       |       |        | x      |
-| Writing - Original Draft   | Preparation, creation and/or presentation of the published work, specifically writing the initial draft (including substantive translation)                                                                   | X    | X          |       |       |        |        |
-| Writing - Review & Editing | Preparation, creation and/or presentation of the published work by those from the original research group, specifically critical review, commentary or revision – including pre-or postpublication stages     | X    | X          | X     | x     | x      | x      |
-| Visualization              | Preparation, creation and/or presentation of the published work, specifically visualization/ data presentation                                                                                                |      |            |       |       |        | x      |
-| Supervision                | Oversight and leadership responsibility for the research activity planning and execution, including mentorship external to the core team                                                                      |      |            |       |       | x      | x      |
-| Project administration     | Management and coordination responsibility for the research activity planning and execution                                                                                                                   |      |            |       |       |        | x      |
-| Funding acquisition        | Acquisition of the financial support for the project leading to this publication                                                                                                                              |      |            |       |       |        | x      |
+Please see [here](https://www.elsevier.com/researcher/author/policies-and-guidelines/credit-author-statement) for definitions of the different terms. 
+
+| Term                       | Lara | Jacqueline | Jeong | Cindy | Thomas | Tobias |
+|----------------------------|------|------------|-------|-------|--------|--------|
+| Conceptualization          | X    |            |       |       | x      | x      |
+| Methodology                | X    | X          | X     |       |        | x      |
+| Software                   | X    | X          | X     | x     |        | x      |
+| Validation                 | X    |            |       |       |        | x      |
+| Formal analysis            | X    | X          |       |       |        | x      |
+| Investigation              | X    |            | X     |       |        |        |
+| Resources                  |      |            |       |       |        |        |
+| Data Curation              | X    |            |       |       |        | x      |
+| Writing - Original Draft   | X    | X          |       |       |        |        |
+| Writing - Review & Editing | X    | X          | X     | x     | x      | x      |
+| Visualization              |      |            |       |       |        | x      |
+| Supervision                |      |            |       |       | x      | x      |
+| Project administration     |      |            |       |       |        | x      |
+| Funding acquisition        |      |            |       |       |        | x      |
