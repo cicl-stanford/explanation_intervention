@@ -1,4 +1,4 @@
-# Explanations Communiate Optimal Interventions
+# Explanations Communicate Optimal Interventions
 
 
 This repository contains the experiment, data, analyses and figured for the  CogSci 2024 paper <a href="https://psyarxiv.com/XXX/">"Do as I explain" Explanations communiate optimal interventions"</a> by Lara Kirfel, Jacqueline Harding, Jeong Shin, Cindy Wu, Thomas Icard and Tobias Gerstenberg.
@@ -7,7 +7,7 @@ This repository contains the experiment, data, analyses and figured for the  Cog
 
 People often select only a few events when explaining what happened. What drives people's explanation selection? Prior research argued that people's explanation choices are affected by event normality and causal structure. Here, we propose a new model of these existing findings and test its predictions in a novel experiment. The model predicts that speakers value accuracy and relevance. They choose explanations that are true, and that communicate useful information to the listener. We test the model's predictions empirically by manipulating what goals a listener has and what actions they can take. Across twelve experimental conditions, we find that our model accurately predicts that people like to choose explanations that communicate optimal interventions.
 
-## Pre-registrations 
+## Pre-registrations
 
 <ul>
   <li>the pre-registrations for all experiments may be accessed via the Open Science Framework <a href="https://osf.io/fpyst/">here</a>.</li> 
@@ -23,7 +23,7 @@ People often select only a few events when explaining what happened. What drives
 </ul> 
 
 
-## Repository structure 
+## Repository structure
 
 ```
 ├── code
@@ -86,7 +86,7 @@ Condition "Fixed Intervention / Positive Outcome": <a href="https://cicl-stanfor
 Condition "Fixed Intervention / Negative Outcome": <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=3">Click here!</a>
 
 
-### data 
+### data
 
 Contains anonymized combined data for all experimental conditions (hard / soft / fixed intervention x positive / negative outcome) (for raw data and how these were computed, see <code>code/R/</code>). 
 
@@ -95,10 +95,29 @@ For example, <code>fixedint_negative.csv</code> contains the average percentage 
 <code>data_int.csv</code> combines all four dataframes (hardint_pos, hardint_neg, softint_pos, softint_neg, fixedint_pos, fixedint_neg)
 
 
-### figures 
+### figures
 
 contains all the figures from the paper (generated using the script in <code>code/R/experiments</code>).
 
 ### writeup
 
 contains a pdf of the CogSci 2024 paper.
+
+## CRediT
+
+| Term                       | Definition                                                                                                                                                                                                    | Lara | Jacqueline | Jeong | Cindy | Thomas | Tobias |
+|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|------------|-------|-------|--------|--------|
+| Conceptualization          | Ideas; formulation or evolution of overarching research goals and aims                                                                                                                                        | X    |            |       |       | x      | x      |
+| Methodology                | Development or design of methodology; creation of models                                                                                                                                                      | X    | X          | X     |       |        | x      |
+| Software                   | Programming, software development; designing computer programs; implementation of the computer code and supporting algorithms; testing of existing code components                                            | X    | X          | X     | x     |        | x      |
+| Validation                 | Verification, whether as a part of the activity or separate, of the overall replication/ reproducibility of results/experiments and other research outputs                                                    | X    |            |       |       |        | x      |
+| Formal analysis            | Application of statistical, mathematical, computational, or other formal techniques to analyze or synthesize study data                                                                                       | X    | X          |       |       |        | x      |
+| Investigation              | Conducting a research and investigation process, specifically performing the experiments, or data/evidence collection                                                                                         | X    |            | X     |       |        |        |
+| Resources                  | Provision of study materials, reagents, materials, patients, laboratory samples, animals, instrumentation, computing resources, or other analysis tools                                                       |      |            |       |       |        |        |
+| Data Curation              | Management activities to annotate (produce metadata), scrub data and maintain research data (including software code, where it is necessary for interpreting the data itself) for initial use and later reuse | X    |            |       |       |        | x      |
+| Writing - Original Draft   | Preparation, creation and/or presentation of the published work, specifically writing the initial draft (including substantive translation)                                                                   | X    | X          |       |       |        |        |
+| Writing - Review & Editing | Preparation, creation and/or presentation of the published work by those from the original research group, specifically critical review, commentary or revision – including pre-or postpublication stages     | X    | X          | X     | x     | x      | x      |
+| Visualization              | Preparation, creation and/or presentation of the published work, specifically visualization/ data presentation                                                                                                |      |            |       |       |        | x      |
+| Supervision                | Oversight and leadership responsibility for the research activity planning and execution, including mentorship external to the core team                                                                      |      |            |       |       | x      | x      |
+| Project administration     | Management and coordination responsibility for the research activity planning and execution                                                                                                                   |      |            |       |       |        | x      |
+| Funding acquisition        | Acquisition of the financial support for the project leading to this publication                                                                                                                              |      |            |       |       |        | x      |
