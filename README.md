@@ -71,17 +71,17 @@ This folder contains two types of R scripts.
 
 Contains all the experiment code. You can preview the experiments below:
 
-- [Condition "Hard Intervention / Positive Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=1)
+- [Condition "Hard Intervention / Positive Outcome"](https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=1)
 
-- [Condition "Hard Intervention / Negative Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=3)
+- [Condition "Hard Intervention / Negative Outcome"](https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=3)
 
-- [Condition "Soft Intervention / Positive Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_2/index.html?condition=1)
+- [Condition "Soft Intervention / Positive Outcome"](https://cicl-stanford.github.io/explanation_intervention/experiment_2/index.html?condition=1)
 
-- [Condition "Soft Intervention / Negative Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_2/index.html?condition=3)
+- [Condition "Soft Intervention / Negative Outcome"](https://cicl-stanford.github.io/explanation_intervention/experiment_2/index.html?condition=3)
 
-- [Condition "Fixed Intervention / Positive Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=1)
+- [Condition "Fixed Intervention / Positive Outcome"](https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=1)
 
-- [Condition "Fixed Intervention / Negative Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=3)
+- [Condition "Fixed Intervention / Negative Outcome"](https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=3)
 
 
 ### data
