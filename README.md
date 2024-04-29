@@ -9,42 +9,40 @@ People often select only a few events when explaining what happened. What drives
 
 ## Pre-registrations
 
-<ul>
-  <li>the pre-registrations for all experiments may be accessed via the Open Science Framework <a href="https://osf.io/fpyst/">here</a>.</li> 
-  <li>separate links for each experiment:</li>
-   <ul>
-      <li><a href="https://osf.io/8k9sy">Condition "Hard Intervention / Negative Outcome" </a></li>
-      <li><a href="https://osf.io/7qzu9">Condition "Hard Intervention / Positive Outcome" </a></li>
-      <li><a href="https://osf.io/aw286">Condition "Soft Intervention / Negative Outcome" </a></li>
-      <li><a href="https://osf.io/dmgcw">Condition "Soft Intervention / Positive Outcome" </a></li>
-      <li><a href="https://osf.io/49bfq">Condition "Fixed Intervention / Negative Outcome" </a></li>
-      <li><a href="https://osf.io/rbu7y">Condition "Fixed Intervention / Positive Outcome" </a></li>
-    </ul>
-</ul> 
-
+- the pre-registrations for all experiments may be accessed via the Open Science Framework [here](https://osf.io/fpyst/)
+- separate links for each experiment:
+  - [Condition "Hard Intervention / Negative Outcome"](https://osf.io/8k9sy)
+  - [Condition "Hard Intervention / Positive Outcome"](https://osf.io/7qzu9)
+  - [Condition "Soft Intervention / Negative Outcome"](https://osf.io/aw286)
+  - [Condition "Soft Intervention / Positive Outcome"](https://osf.io/dmgcw)
+  - [Condition "Fixed Intervention / Negative Outcome"](https://osf.io/49bfq)
+  - [Condition "Fixed Intervention / Positive Outcome"](https://osf.io/rbu7y)
 
 ## Repository structure
 
 ```
+.
 ├── code
-│   ├── R
+│   └── R
 ├── data
 ├── docs
-│   ├── experiment1 (Hard Intervention)
-│   ├── experiment2 (Soft Intervention)
-│   └── experiment3 (Fixed Intervention)
-└── figures
-│   └── plots
+│   ├── analyses
+│   ├── experiment_1
+│   ├── experiment_2
+│   └── experiment_3
+├── figures
+│   └── plots
 └── writeup
+    └── cogsci
 ```
 
 ### code
 
 This folder contains two types of R scripts. 
 
-The model predictions can be seen <a href="https://cicl-stanford.github.io/explanation_intervention/analyses/model/index.html">here</a>. 
+- The model predictions can be seen [here](https://cicl-stanford.github.io/explanation_intervention/analyses/model/index.html) 
 
-The analyses and plots can be seen <a href="https://cicl-stanford.github.io/explanation_intervention/analyses/experiments/index.html">here</a>
+- The analyses and plots can be seen [here](https://cicl-stanford.github.io/explanation_intervention/analyses/experiments/index.html)
 
 <ul>
   <li><code>R/optimal_intervention_model</code>
@@ -73,17 +71,17 @@ The analyses and plots can be seen <a href="https://cicl-stanford.github.io/expl
 
 Contains all the experiment code. You can preview the experiments below:
 
-Condition "Hard Intervention / Positive Outcome": <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=1">Click here!</a>
+- [Condition "Hard Intervention / Positive Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=1)
 
-Condition "Hard Intervention / Negative Outcome": <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=3">Click here!</a>
+- [Condition "Hard Intervention / Negative Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_1/index.html?condition=3)
 
-Condition "Soft Intervention / Positive Outcome": <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_2/index.html?condition=1">Click here!</a>
+- [Condition "Soft Intervention / Positive Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_2/index.html?condition=1)
 
-Condition "Soft Intervention / Negative Outcome": <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_2/index.html?condition=3">Click here!</a>
+- [Condition "Soft Intervention / Negative Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_2/index.html?condition=3)
 
-Condition "Fixed Intervention / Positive Outcome": <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=1">Click here!</a>
+- [Condition "Fixed Intervention / Positive Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=1)
 
-Condition "Fixed Intervention / Negative Outcome": <a href="https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=3">Click here!</a>
+- [Condition "Fixed Intervention / Negative Outcome](https://cicl-stanford.github.io/explanation_intervention/experiment_3/index.html?condition=3)
 
 
 ### data
