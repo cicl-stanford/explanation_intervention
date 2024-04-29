@@ -109,17 +109,17 @@ Please see [here](https://www.elsevier.com/researcher/author/policies-and-guidel
 
 | Term                       | Lara | Jacqueline | Jeong | Cindy | Thomas | Tobias |
 |----------------------------|------|------------|-------|-------|--------|--------|
-| Conceptualization          | X    |            |       |       | x      | x      |
-| Methodology                | X    | X          | X     |       |        | x      |
-| Software                   | X    | X          | X     | x     |        | x      |
-| Validation                 | X    |            |       |       |        | x      |
-| Formal analysis            | X    | X          |       |       |        | x      |
+| Conceptualization          | X    |            |       |       | X      | X      |
+| Methodology                | X    | X          | X     |       |        | X      |
+| Software                   | X    | X          | X     | X     |        | X      |
+| Validation                 | X    |            |       |       |        | X      |
+| Formal analysis            | X    | X          |       |       |        | X      |
 | Investigation              | X    |            | X     |       |        |        |
 | Resources                  |      |            |       |       |        |        |
-| Data Curation              | X    |            |       |       |        | x      |
+| Data Curation              | X    |            |       |       |        | X      |
 | Writing - Original Draft   | X    | X          |       |       |        |        |
-| Writing - Review & Editing | X    | X          | X     | x     | x      | x      |
-| Visualization              |      |            |       |       |        | x      |
-| Supervision                |      |            |       |       | x      | x      |
-| Project administration     |      |            |       |       |        | x      |
-| Funding acquisition        |      |            |       |       |        | x      |
+| Writing - Review & Editing | X    | X          | X     | X     | X      | X      |
+| Visualization              |      |            |       |       |        | X      |
+| Supervision                |      |            |       |       | X      | X      |
+| Project administration     |      |            |       |       |        | X      |
+| Funding acquisition        |      |            |       |       |        | X      |
