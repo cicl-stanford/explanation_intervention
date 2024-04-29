@@ -105,7 +105,7 @@ contains a pdf of the CogSci 2024 paper.
 
 Please see [here](https://www.elsevier.com/researcher/author/policies-and-guidelines/credit-author-statement) for definitions of the different terms. 
 
-| Term                       | Lara | Jacqueline | Jeong | Cindy | Thomas | Tobias |
+|                        | Lara | Jacqueline | Jeong | Cindy | Thomas | Tobias |
 |----------------------------|------|------------|-------|-------|--------|--------|
 | Conceptualization          | X    |            |       |       | X      | X      |
 | Methodology                | X    | X          | X     |       |        | X      |
