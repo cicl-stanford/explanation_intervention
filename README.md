@@ -1,7 +1,7 @@
 # Explanations Communicate Optimal Interventions
 
 
-This repository contains the experiment, data, analyses and figured for the  CogSci 2024 paper <a href="https://psyarxiv.com/XXX/">"Do as I explain" Explanations communiate optimal interventions"</a> by Lara Kirfel, Jacqueline Harding, Jeong Shin, Cindy Wu, Thomas Icard and Tobias Gerstenberg.
+This repository contains the experiment, data, analyses and figured for the  CogSci 2024 paper "Do as I explain" Explanations communicate optimal interventions" by Lara Kirfel, Jacqueline Harding, Jeong Shin, Cindy Wu, Thomas Icard and Tobias Gerstenberg.
 
 ## Abstract
 
@@ -9,8 +9,9 @@ People often select only a few events when explaining what happened. What drives
 
 ## Pre-registrations
 
-- the pre-registrations for all experiments may be accessed via the Open Science Framework [here](https://osf.io/fpyst/)
-- separate links for each experiment:
+The pre-registrations for all experiments may be accessed via the Open Science Framework [here](https://osf.io/fpyst/).
+
+Here are separate links for each experiment:
   - [Condition "Hard Intervention / Negative Outcome"](https://osf.io/8k9sy)
   - [Condition "Hard Intervention / Positive Outcome"](https://osf.io/7qzu9)
   - [Condition "Soft Intervention / Negative Outcome"](https://osf.io/aw286)
@@ -41,31 +42,15 @@ People often select only a few events when explaining what happened. What drives
 This folder contains two types of R scripts. 
 
 - The model predictions can be seen [here](https://cicl-stanford.github.io/explanation_intervention/analyses/model/index.html) 
-
 - The analyses and plots can be seen [here](https://cicl-stanford.github.io/explanation_intervention/analyses/experiments/index.html)
 
-<ul>
-  <li><code>R/optimal_intervention_model</code>
-    <ul>
-      <li> <code>R/optimal_intervention.rmd</code> creates the model predictions for the intervention model, the truth model and a combined model.</li>
-          <ul>
-      <li><code>explanation_predictions_truth_only.csv</code>, for example, contains the predictions for a "Truth Only" model.</li>
-           </ul>
-    </ul>
-  </li>
-  <li><code>R/experiments</code>
-    <ul>
-      <li> This folder contains all raw data from all experimental conditions.
-        <ul>
-          <li><code>[...]study_X-responses.csv</code> contains the response data (i.e., intervention and explanation selection).</li>
-          <li><code>[...]study_X-participants.csv</code> contains demographic information and post-experiment feedback/comments from participants.</li>
-          <li><code>Experiment.rmd</code> reads in the response data from each experimental condition (e.g., fixed intervention / negative), calculates average responses and outputs these in a new data file (e.g., <code>fixedint_negative.csv</code>).
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
+- <code>R/optimal_intervention_model</code>: 
+  - <code>R/optimal_intervention.rmd</code> creates the model predictions for the intervention model, the truth model and a combined model.
+    - <code>explanation_predictions_truth_only.csv</code>, for example, contains the predictions for a "Truth Only" model.
+- <code>R/experiments</code>: This folder contains all raw data from all experimental conditions.
+  - <code>[...]study_X-responses.csv</code> contains the response data (i.e., intervention and explanation selection).
+  - <code>[...]study_X-participants.csv</code> contains demographic information and post-experiment feedback/comments from participants.
+  - <code>Experiment.rmd</code> reads in the response data from each experimental condition (e.g., fixed intervention / negative), calculates average responses and outputs these in a new data file (e.g., <code>fixedint_negative.csv</code>).
 
 ### docs
 
@@ -95,11 +80,11 @@ For example, <code>fixedint_negative.csv</code> contains the average percentage 
 
 ### figures
 
-contains all the figures from the paper (generated using the script in <code>code/R/experiments</code>).
+Contains all the figures from the paper (generated using the script in <code>code/R/experiments</code>).
 
 ### writeup
 
-contains a pdf of the CogSci 2024 paper.
+Contains a pdf of the CogSci 2024 paper.
 
 ## CRediT
 
