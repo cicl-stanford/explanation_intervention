@@ -498,7 +498,7 @@ df.exp5_summary = df.exp5 %>%
     normal_intervention_percentage = mean(normal_intervention == "normal") * 100,
     nopreference_intervention_percentage = mean(nopreference_intervention == "no preference") * 100
   ) %>% 
-    mutate(Outcome = "negative") %>% 
+    mutate(Outcome = "positive") %>% 
     mutate(Experiment = "fixedint")
 
 write_csv(df.exp5_summary, "../../../data/aggregate/fixedint_pos.csv")

@@ -86,7 +86,6 @@ colnames(df.data)
 ### Model structure
 
 ```{r}
-
 fun.success = function(p_abnormal, p_normal, causal_structure, outcome){ 
   if (causal_structure == "conjunctive"){
     p = p_abnormal *  p_normal
@@ -192,10 +191,10 @@ fun.fit_temperature = function(df_data, df_prediction, temperature){
     pull(loss)
 }
 
-fit.temperature = optim(par = 10, 
+fit.temperature = optim(par = 10,
                         fn = fun.fit_temperature,
                         method = "L-BFGS-B",
-                        lower = 0, 
+                        lower = 0,
                         upper = 100,
                         df_data = df.intervention,
                         df_prediction = df.choice)
