@@ -374,7 +374,6 @@ write.csv(df.prediction_explanation_truth_only, file = "../../../data/model/expl
 ```
 
 
-
 # Session info
 
 ```{r, echo=F}

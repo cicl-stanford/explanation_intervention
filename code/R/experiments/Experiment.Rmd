@@ -50,21 +50,21 @@ df.data1 = merge(df.responses, df.participants, by="workerid")
 
 ```{r}
 df.exp1 = df.data1 %>% 
-    gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
   mutate(CausalStructure  =
            case_when(
-       str_detect(proliferate.condition, "Conpos_") & str_detect(index, "response_1") ~ "Conjunctive",
-       str_detect(proliferate.condition, "Conpos_") & str_detect(index, "response_2") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Dispos_") & str_detect(index, "response_1") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Dispos_") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+             str_detect(proliferate.condition, "Conpos_") & str_detect(index, "response_1") ~ "Conjunctive",
+             str_detect(proliferate.condition, "Conpos_") & str_detect(index, "response_2") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Dispos_") & str_detect(index, "response_1") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Dispos_") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
   mutate(Order =
            case_when(
-       str_detect(proliferate.condition, "Conpos_") ~ "conjunctive first",
-       str_detect(proliferate.condition, "Dispos_") ~ "disjunctive first"))%>% 
+             str_detect(proliferate.condition, "Conpos_") ~ "conjunctive first",
+             str_detect(proliferate.condition, "Dispos_") ~ "disjunctive first"))%>% 
   mutate(ResponseType =
            case_when(
-       str_detect(index, "explanation") ~ "explanation",
-       str_detect(index, "intervention")  ~ "intervention"))%>% 
+             str_detect(index, "explanation") ~ "explanation",
+             str_detect(index, "intervention")  ~ "intervention"))%>% 
   select(-index) %>% 
   spread(ResponseType, response) %>% 
   mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
@@ -72,38 +72,34 @@ df.exp1 = df.data1 %>%
                                "orange" = "abnormal",
                                "blue" = "normal" )) %>% 
   mutate(intervention = recode (intervention, 
-                               "orange" = "abnormal",
-                               "blue" = "normal" )) %>% 
+                                "orange" = "abnormal",
+                                "blue" = "normal" )) %>% 
   mutate(abnormal_explanation =
            case_when(
-        explanation == "abnormal" ~ "abnormal",
-        explanation != "abnormal"~ "other")) %>% 
+             explanation == "abnormal" ~ "abnormal",
+             explanation != "abnormal"~ "other")) %>% 
   mutate(normal_explanation =
            case_when(
-        explanation == "normal" ~ "normal",
-        explanation != "normal"~ "other")) %>% 
+             explanation == "normal" ~ "normal",
+             explanation != "normal"~ "other")) %>% 
   mutate(nopreference_explanation =
            case_when(
-        explanation == "no preference" ~ "no preference",
-        explanation != "no preference"~ "other")) %>% 
+             explanation == "no preference" ~ "no preference",
+             explanation != "no preference"~ "other")) %>% 
   mutate(abnormal_intervention =
            case_when(
-        intervention== "abnormal" ~ "abnormal",
-        intervention!= "abnormal"~ "other")) %>% 
+             intervention== "abnormal" ~ "abnormal",
+             intervention!= "abnormal"~ "other")) %>% 
   mutate(normal_intervention  =
            case_when(
-        intervention  == "normal" ~ "normal",
-        intervention  != "normal"~ "other")) %>% 
+             intervention  == "normal" ~ "normal",
+             intervention  != "normal"~ "other")) %>% 
   mutate(nopreference_intervention  =
            case_when(
-        intervention== "no preference" ~ "no preference",
-        intervention!= "no preference"~ "other")) %>% 
-   mutate(intervention = "hard") %>% 
-   mutate(outcome = "positive") 
-  
-
-
-  
+             intervention== "no preference" ~ "no preference",
+             intervention!= "no preference"~ "other")) %>% 
+  mutate(intervention = "hard") %>% 
+  mutate(outcome = "positive") 
 ```
 
 ## Prepate Dataset
@@ -124,7 +120,6 @@ df.exp1_summary = df.exp1 %>%
     mutate(Experiment = "hardint")
 
 write_csv(df.exp1_summary, "../../../data/aggregate/hardint_pos.csv")
-
 ```
 
 # Condition 2: Hard Intervention: Negative Outcome
@@ -147,21 +142,21 @@ df.data2 = merge(df.responses, df.participants, by="workerid")
 
 ```{r}
 df.exp2 = df.data2 %>% 
-    gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
   mutate(CausalStructure  =
            case_when(
-       str_detect(proliferate.condition, "Conneg_") & str_detect(index, "response_1") ~ "Conjunctive",
-       str_detect(proliferate.condition, "Conneg_") & str_detect(index, "response_2") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Disneg_") & str_detect(index, "response_1") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Disneg_") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+             str_detect(proliferate.condition, "Conneg_") & str_detect(index, "response_1") ~ "Conjunctive",
+             str_detect(proliferate.condition, "Conneg_") & str_detect(index, "response_2") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Disneg_") & str_detect(index, "response_1") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Disneg_") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
   mutate(Order =
            case_when(
-       str_detect(proliferate.condition, "Conneg_") ~ "conjunctive first",
-       str_detect(proliferate.condition, "Disneg_") ~ "disjunctive first"))%>% 
+             str_detect(proliferate.condition, "Conneg_") ~ "conjunctive first",
+             str_detect(proliferate.condition, "Disneg_") ~ "disjunctive first"))%>% 
   mutate(ResponseType =
            case_when(
-       str_detect(index, "explanation") ~ "explanation",
-       str_detect(index, "intervention")  ~ "intervention"))%>% 
+             str_detect(index, "explanation") ~ "explanation",
+             str_detect(index, "intervention")  ~ "intervention"))%>% 
   select(-index) %>% 
   spread(ResponseType, response) %>% 
   mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
@@ -169,34 +164,34 @@ df.exp2 = df.data2 %>%
                                "orange" = "abnormal",
                                "blue" = "normal" )) %>% 
   mutate(intervention = recode (intervention, 
-                               "orange" = "abnormal",
-                               "blue" = "normal" )) %>% 
+                                "orange" = "abnormal",
+                                "blue" = "normal" )) %>% 
   mutate(abnormal_explanation =
            case_when(
-        explanation == "abnormal" ~ "abnormal",
-        explanation != "abnormal"~ "other")) %>% 
+             explanation == "abnormal" ~ "abnormal",
+             explanation != "abnormal"~ "other")) %>% 
   mutate(normal_explanation =
            case_when(
-        explanation == "normal" ~ "normal",
-        explanation != "normal"~ "other")) %>% 
+             explanation == "normal" ~ "normal",
+             explanation != "normal"~ "other")) %>% 
   mutate(nopreference_explanation =
            case_when(
-        explanation == "no preference" ~ "no preference",
-        explanation != "no preference"~ "other")) %>% 
+             explanation == "no preference" ~ "no preference",
+             explanation != "no preference"~ "other")) %>% 
   mutate(abnormal_intervention =
            case_when(
-        intervention== "abnormal" ~ "abnormal",
-        intervention!= "abnormal"~ "other")) %>% 
+             intervention== "abnormal" ~ "abnormal",
+             intervention!= "abnormal"~ "other")) %>% 
   mutate(normal_intervention  =
            case_when(
-        intervention  == "normal" ~ "normal",
-        intervention  != "normal"~ "other")) %>% 
+             intervention  == "normal" ~ "normal",
+             intervention  != "normal"~ "other")) %>% 
   mutate(nopreference_intervention  =
            case_when(
-        intervention== "no preference" ~ "no preference",
-        intervention!= "no preference"~ "other")) %>% 
-     mutate(intervention = "hard") %>% 
-   mutate(outcome = "negative") 
+             intervention== "no preference" ~ "no preference",
+             intervention!= "no preference"~ "other")) %>% 
+  mutate(intervention = "hard") %>% 
+  mutate(outcome = "negative") 
   
 ```
 
@@ -241,21 +236,21 @@ df.data3 = merge(df.responses, df.participants, by="workerid")
 
 ```{r}
 df.exp3 = df.data3 %>% 
-    gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
   mutate(CausalStructure  =
            case_when(
-       str_detect(proliferate.condition, "Condition_1") & str_detect(index, "response_1") ~ "Conjunctive",
-       str_detect(proliferate.condition, "Condition_1") & str_detect(index, "response_2") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Condition_2") & str_detect(index, "response_1") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Condition_2") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+             str_detect(proliferate.condition, "Condition_1") & str_detect(index, "response_1") ~ "Conjunctive",
+             str_detect(proliferate.condition, "Condition_1") & str_detect(index, "response_2") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Condition_2") & str_detect(index, "response_1") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Condition_2") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
   mutate(Order =
            case_when(
-       str_detect(proliferate.condition, "Condition_1") ~ "conjunctive first",
-       str_detect(proliferate.condition, "Condition_2") ~ "disjunctive first"))%>% 
+             str_detect(proliferate.condition, "Condition_1") ~ "conjunctive first",
+             str_detect(proliferate.condition, "Condition_2") ~ "disjunctive first"))%>% 
   mutate(ResponseType =
            case_when(
-       str_detect(index, "explanation") ~ "explanation",
-       str_detect(index, "intervention")  ~ "intervention"))%>% 
+             str_detect(index, "explanation") ~ "explanation",
+             str_detect(index, "intervention")  ~ "intervention"))%>% 
   select(-index) %>% 
   spread(ResponseType, response) %>% 
   mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
@@ -263,35 +258,35 @@ df.exp3 = df.data3 %>%
                                "orange" = "abnormal",
                                "blue" = "normal" )) %>% 
   mutate(intervention = recode (intervention, 
-                               "orange" = "abnormal",
-                               "blue" = "normal" )) %>% 
+                                "orange" = "abnormal",
+                                "blue" = "normal" )) %>% 
   mutate(abnormal_explanation =
            case_when(
-        explanation == "abnormal" ~ "abnormal",
-        explanation != "abnormal"~ "other")) %>% 
+             explanation == "abnormal" ~ "abnormal",
+             explanation != "abnormal"~ "other")) %>% 
   mutate(normal_explanation =
            case_when(
-        explanation == "normal" ~ "normal",
-        explanation != "normal"~ "other")) %>% 
+             explanation == "normal" ~ "normal",
+             explanation != "normal"~ "other")) %>% 
   mutate(nopreference_explanation =
            case_when(
-        explanation == "no preference" ~ "no preference",
-        explanation != "no preference"~ "other")) %>% 
+             explanation == "no preference" ~ "no preference",
+             explanation != "no preference"~ "other")) %>% 
   mutate(abnormal_intervention =
            case_when(
-        intervention== "abnormal" ~ "abnormal",
-        intervention!= "abnormal"~ "other")) %>% 
+             intervention== "abnormal" ~ "abnormal",
+             intervention!= "abnormal"~ "other")) %>% 
   mutate(normal_intervention  =
            case_when(
-        intervention  == "normal" ~ "normal",
-        intervention  != "normal"~ "other")) %>% 
+             intervention  == "normal" ~ "normal",
+             intervention  != "normal"~ "other")) %>% 
   mutate(nopreference_intervention  =
            case_when(
-        intervention== "no preference" ~ "no preference",
-        intervention!= "no preference"~ "other"))%>% 
-     mutate(intervention = "soft") %>% 
-   mutate(outcome = "positive")  
-  
+             intervention== "no preference" ~ "no preference",
+             intervention!= "no preference"~ "other"))%>% 
+  mutate(intervention = "soft") %>% 
+  mutate(outcome = "positive")  
+
 
 ```
 
@@ -336,21 +331,21 @@ df.data4 = merge(df.responses, df.participants, by="workerid") %>%
 
 ```{r}
 df.exp4 = df.data4 %>% 
-    gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
   mutate(CausalStructure  =
            case_when(
-       str_detect(proliferate.condition, "Condition_3") & str_detect(index, "response_1") ~ "Conjunctive",
-       str_detect(proliferate.condition, "Condition_3") & str_detect(index, "response_2") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Condition_4") & str_detect(index, "response_1") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Condition_4") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+             str_detect(proliferate.condition, "Condition_3") & str_detect(index, "response_1") ~ "Conjunctive",
+             str_detect(proliferate.condition, "Condition_3") & str_detect(index, "response_2") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Condition_4") & str_detect(index, "response_1") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Condition_4") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
   mutate(Order =
            case_when(
-       str_detect(proliferate.condition, "Condition_3") ~ "conjunctive first",
-       str_detect(proliferate.condition, "Condition_4") ~ "disjunctive first"))%>% 
+             str_detect(proliferate.condition, "Condition_3") ~ "conjunctive first",
+             str_detect(proliferate.condition, "Condition_4") ~ "disjunctive first"))%>% 
   mutate(ResponseType =
            case_when(
-       str_detect(index, "explanation") ~ "explanation",
-       str_detect(index, "intervention")  ~ "intervention"))%>% 
+             str_detect(index, "explanation") ~ "explanation",
+             str_detect(index, "intervention")  ~ "intervention"))%>% 
   select(-index) %>% 
   spread(ResponseType, response) %>% 
   mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
@@ -358,35 +353,35 @@ df.exp4 = df.data4 %>%
                                "orange" = "abnormal",
                                "blue" = "normal" )) %>% 
   mutate(intervention = recode (intervention, 
-                               "orange" = "abnormal",
-                               "blue" = "normal" )) %>% 
+                                "orange" = "abnormal",
+                                "blue" = "normal" )) %>% 
   mutate(abnormal_explanation =
            case_when(
-        explanation == "abnormal" ~ "abnormal",
-        explanation != "abnormal"~ "other")) %>% 
+             explanation == "abnormal" ~ "abnormal",
+             explanation != "abnormal"~ "other")) %>% 
   mutate(normal_explanation =
            case_when(
-        explanation == "normal" ~ "normal",
-        explanation != "normal"~ "other")) %>% 
+             explanation == "normal" ~ "normal",
+             explanation != "normal"~ "other")) %>% 
   mutate(nopreference_explanation =
            case_when(
-        explanation == "no preference" ~ "no preference",
-        explanation != "no preference"~ "other")) %>% 
+             explanation == "no preference" ~ "no preference",
+             explanation != "no preference"~ "other")) %>% 
   mutate(abnormal_intervention =
            case_when(
-        intervention== "abnormal" ~ "abnormal",
-        intervention!= "abnormal"~ "other")) %>% 
+             intervention== "abnormal" ~ "abnormal",
+             intervention!= "abnormal"~ "other")) %>% 
   mutate(normal_intervention  =
            case_when(
-        intervention  == "normal" ~ "normal",
-        intervention  != "normal"~ "other")) %>% 
+             intervention  == "normal" ~ "normal",
+             intervention  != "normal"~ "other")) %>% 
   mutate(nopreference_intervention  =
            case_when(
-        intervention== "no preference" ~ "no preference",
-        intervention!= "no preference"~ "other")) %>% 
-     mutate(intervention = "soft") %>% 
-   mutate(outcome = "negative") 
-  
+             intervention== "no preference" ~ "no preference",
+             intervention!= "no preference"~ "other")) %>% 
+  mutate(intervention = "soft") %>% 
+  mutate(outcome = "negative") 
+
 
 ```
 
@@ -431,21 +426,21 @@ df.data5 = merge(df.responses, df.participants, by="workerid")
 
 ```{r}
 df.exp5 = df.data5 %>% 
-   gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
+  gather("index", "response", -c(workerid, proliferate.condition, age, ethnicity, gender, feedback, race))%>% 
   mutate(CausalStructure  =
            case_when(
-       str_detect(proliferate.condition, "Condition1") & str_detect(index, "response_1") ~ "Conjunctive",
-       str_detect(proliferate.condition, "Condition1") & str_detect(index, "response_2") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Condition2") & str_detect(index, "response_1") ~ "Disjunctive",
-       str_detect(proliferate.condition, "Condition2") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
+             str_detect(proliferate.condition, "Condition1") & str_detect(index, "response_1") ~ "Conjunctive",
+             str_detect(proliferate.condition, "Condition1") & str_detect(index, "response_2") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Condition2") & str_detect(index, "response_1") ~ "Disjunctive",
+             str_detect(proliferate.condition, "Condition2") & str_detect(index, "response_2") ~ "Conjunctive"))%>% 
   mutate(Order =
            case_when(
-       str_detect(proliferate.condition, "Condition1") ~ "conjunctive first",
-       str_detect(proliferate.condition, "Condition2") ~ "disjunctive first"))%>% 
+             str_detect(proliferate.condition, "Condition1") ~ "conjunctive first",
+             str_detect(proliferate.condition, "Condition2") ~ "disjunctive first"))%>% 
   mutate(ResponseType =
            case_when(
-       str_detect(index, "explanation") ~ "explanation",
-       str_detect(index, "intervention")  ~ "intervention"))%>% 
+             str_detect(index, "explanation") ~ "explanation",
+             str_detect(index, "intervention")  ~ "intervention"))%>% 
   select(-index) %>% 
   spread(ResponseType, response) %>% 
   mutate(CausalStructure= factor(CausalStructure, levels=c("Conjunctive", "Disjunctive"))) %>%
@@ -453,34 +448,34 @@ df.exp5 = df.data5 %>%
                                "orange" = "abnormal",
                                "blue" = "normal" )) %>% 
   mutate(intervention = recode (intervention, 
-                               "orange" = "abnormal",
-                               "blue" = "normal" )) %>% 
+                                "orange" = "abnormal",
+                                "blue" = "normal" )) %>% 
   mutate(abnormal_explanation =
            case_when(
-        explanation == "abnormal" ~ "abnormal",
-        explanation != "abnormal"~ "other")) %>% 
+             explanation == "abnormal" ~ "abnormal",
+             explanation != "abnormal"~ "other")) %>% 
   mutate(normal_explanation =
            case_when(
-        explanation == "normal" ~ "normal",
-        explanation != "normal"~ "other")) %>% 
+             explanation == "normal" ~ "normal",
+             explanation != "normal"~ "other")) %>% 
   mutate(nopreference_explanation =
            case_when(
-        explanation == "no preference" ~ "no preference",
-        explanation != "no preference"~ "other")) %>% 
+             explanation == "no preference" ~ "no preference",
+             explanation != "no preference"~ "other")) %>% 
   mutate(abnormal_intervention =
            case_when(
-        intervention== "abnormal" ~ "abnormal",
-        intervention!= "abnormal"~ "other")) %>% 
+             intervention== "abnormal" ~ "abnormal",
+             intervention!= "abnormal"~ "other")) %>% 
   mutate(normal_intervention  =
            case_when(
-        intervention  == "normal" ~ "normal",
-        intervention  != "normal"~ "other")) %>% 
+             intervention  == "normal" ~ "normal",
+             intervention  != "normal"~ "other")) %>% 
   mutate(nopreference_intervention  =
            case_when(
-        intervention== "no preference" ~ "no preference",
-        intervention!= "no preference"~ "other")) %>% 
-     mutate(intervention = "fixed") %>% 
-   mutate(outcome = "positive") 
+             intervention== "no preference" ~ "no preference",
+             intervention!= "no preference"~ "other")) %>% 
+  mutate(intervention = "fixed") %>% 
+  mutate(outcome = "positive") 
   
 ```
 
